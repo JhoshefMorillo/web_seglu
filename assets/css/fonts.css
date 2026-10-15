@@ -1,0 +1,57 @@
+/* ============================================================
+   FUENTES LOCALES (self-host)
+   Barlow Condensed + Inter, descargadas de Google Fonts (subconjunto latin).
+   Al vivir dentro del proyecto ya no dependemos de fonts.googleapis.com:
+   se ven igual con o sin conexión y sin pesos "inventados" por el navegador.
+   ============================================================ */
+
+/* ---------- Barlow Condensed — títulos / display ---------- */
+@font-face {
+  font-family: "Barlow Condensed";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../fonts/barlow-condensed-500.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Barlow Condensed";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../fonts/barlow-condensed-600.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Barlow Condensed";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../fonts/barlow-condensed-700.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Barlow Condensed";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("../fonts/barlow-condensed-800.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Barlow Condensed";
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url("../fonts/barlow-condensed-900.woff2") format("woff2");
+}
+
+/* ---------- Inter — texto / interfaz. Fuente variable: un solo archivo
+   cubre todos los pesos (100–900), así que ningún grosor se sintetiza. ---------- */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("../fonts/inter-variable.woff2") format("woff2");
+}

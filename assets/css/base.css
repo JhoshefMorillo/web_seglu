@@ -1,0 +1,234 @@
+/* ============================================
+   BASE — Variables globales
+   Reemplaza únicamente el bloque :root de base.css
+   ============================================ */
+
+:root {
+  /* ---------- Marca (exactos del logo) ---------- */
+  --brand-red: #fa0202;
+  --brand-red-hover: #c80000;
+  --brand-red-text: #d40000; /* rojo para texto pequeño sobre fondo claro (≥ 4.5:1) */
+  --brand-red-on-dark: #ff5c5c; /* rojo para texto pequeño sobre azul marino */
+  --brand-blue: #0142b2;
+  --brand-blue-hover: #01338a;
+  --brand-navy: #071a3d; /* hero, CTA, footer */
+  --brand-navy-line: #1b3266; /* líneas divisorias sobre marino */
+  --brand-blue-tint: rgba(1, 66, 178, 0.06);
+  --brand-blue-tint-strong: rgba(1, 66, 178, 0.1);
+
+  /* Overlay del hero (RGB del marino, se usa con rgba(var(--hero-overlay-rgb), α)) */
+  --hero-overlay-rgb: 7, 26, 61;
+
+  /* ---------- Neutros ---------- */
+  --white: #ffffff;
+  --gray-100: #f4f5f6;
+  --gray-300: #e2e4e8;
+  --gray-500: #6f7580; /* solo decorativo (íconos); NO usar para texto pequeño */
+  --gray-800: #23262c;
+
+  /* ---------- Fondos ---------- */
+  --bg-page: #f7f8fa; /* blanco suave, no cansa la vista */
+  --bg-surface: #ffffff; /* secciones alternas, tarjetas */
+  --bg-header: #f7f8fa; /* header (mismo blanco suave que la página) */
+  --bg-footer: #f4f4f5;
+  --border-color: #e3e7ee;
+
+  /* ---------- Texto ---------- */
+  --ink: #1a1a1a; /* cuerpo y todo lo que usa --color-black */
+  --ink-soft: #5b6577; /* secundario (≈5.5:1 sobre --bg-page) */
+  --ink-on-dark: #e8ecf4;
+  --ink-on-dark-soft: #b4bfd6;
+
+  /* ---------- Acción / interacción ---------- */
+  --color-accent: var(--brand-red);
+  --color-accent-tint: rgba(250, 2, 2, 0.08);
+  --color-link: var(--brand-blue);
+  --focus-ring: 0 0 0 3px rgba(1, 66, 178, 0.35);
+  --star-color: #fee829; /* estrellas de reseñas */
+
+  /* ---------- Estados ---------- */
+  --color-success: #15803d;
+  --color-warning: #b45309;
+  --color-danger: #b91c1c;
+
+  /* ---------- Tipografía ---------- */
+  --font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* ---------- Layout ---------- */
+  --header-height: 90px;
+  --container-max: 1280px;
+  --section-padding: 88px;
+
+  /* ---------- Bordes y sombras ---------- */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+  --shadow-sm: 0 1px 2px rgba(7, 26, 61, 0.06), 0 1px 3px rgba(7, 26, 61, 0.08);
+  --shadow-md:
+    0 4px 12px rgba(7, 26, 61, 0.08), 0 2px 4px rgba(7, 26, 61, 0.06);
+  --shadow-lg: 0 16px 32px rgba(7, 26, 61, 0.12);
+
+  /* ---------- Movimiento ---------- */
+  /* Elimina esta línea si ya la defines en otro archivo */
+  --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* ---------- ALIAS DE COMPATIBILIDAD (temporales) ----------
+     Otros CSS (header, botones, páginas internas) pueden seguir usándolos.
+     Busca su uso con "Buscar en proyecto", reemplázalos y elimínalos. */
+  --color-black: var(--ink);
+  --color-white: var(--bg-page);
+  --color-accent-dark: var(--brand-blue);
+  --shadow-hard: 6px 6px 0 var(--brand-navy);
+  --grad-accent: linear-gradient(
+    135deg,
+    #ff4d4d 0%,
+    var(--brand-red) 55%,
+    #c40000 100%
+  );
+}
+
+/* ---------- SELECCIÓN DE TEXTO ---------- */
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-white);
+}
+
+::-moz-selection {
+  background: var(--color-accent);
+  color: var(--color-white);
+}
+
+.hero ::selection {
+  background: rgba(255, 255, 255, 0.3);
+  color: var(--color-white);
+}
+
+/* ---------- RESET / BASE ---------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-height) + 12px);
+  overflow-x: clip;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--color-white);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+  max-width: 100%;
+  padding-top: var(--header-height);
+}
+
+/* El home tiene hero con imagen de fondo — el nav flota encima, sin franja de espacio */
+body:has(.hero) {
+  padding-top: 0;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+input {
+  font: inherit;
+}
+
+.container {
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: 40px;
+}
+
+/* Accesibilidad: foco visible siempre (sutil, sin rojo) */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid rgba(27, 29, 34, 0.5);
+  outline-offset: 2px;
+}
+
+/* Respeta preferencia de reducción de movimiento */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (max-width: 500px) {
+  .container {
+    padding-inline: 20px;
+  }
+}
+
+/* ---------- Scrollbar 100% personalizado (nativo oculto) ----------
+   El scrollbar nativo de Windows dibuja flechas que no se pueden
+   tocar con CSS. Por eso se oculta por completo y se construye uno
+   falso con JS (ver initCustomScrollbar en main.js). Se puede
+   arrastrar (mouse y touch) para hacer scroll, con el puntero
+   normal (sin manito) y siempre en gris, sin cambio de color.
+   El tamaño se controla en JS vía MIN_THUMB_HEIGHT y
+   MAX_THUMB_HEIGHT dentro de initCustomScrollbar(). */
+::-webkit-scrollbar {
+  display: none;
+}
+
+html {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.custom-scrollbar {
+  position: fixed;
+  top: 0;
+  right: 4px;
+  width: 6px;
+  height: 100vh;
+  z-index: 9999;
+  opacity: 1;
+}
+
+.custom-scrollbar__thumb {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #9ca3af;
+  border-radius: 999px;
+  will-change: transform;
+}
+
+.custom-scrollbar__thumb:hover,
+.custom-scrollbar__thumb.is-dragging {
+  background: #9ca3af;
+}

@@ -1,0 +1,314 @@
+/* ============================================
+   COMPONENTES — reutilizables en todo el sitio
+   ============================================ */
+
+:root {
+  --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --- Botones --- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 28px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  border-radius: var(--radius-sm);
+  transition:
+    transform 0.15s ease,
+    background 0.2s ease,
+    color 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn--primary {
+  background: var(--grad-accent);
+  color: var(--color-white);
+  box-shadow: 0 6px 18px rgba(237, 1, 1, 0.28);
+}
+
+.btn--primary:hover {
+  background: var(--grad-accent);
+  filter: brightness(1.05);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(237, 1, 1, 0.38);
+}
+
+.btn--outline {
+  background: transparent;
+  color: var(--color-white);
+  border: 2px solid var(--color-white);
+}
+
+.btn--outline:hover {
+  background: var(--color-white);
+  color: var(--color-black);
+  transform: translateY(-2px);
+}
+
+.btn--full {
+  width: 100%;
+}
+
+/* --- Encabezados de sección --- */
+.section-eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 8px;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 700;
+  color: var(--color-white);
+  line-height: 1.1;
+}
+
+.section-title--center {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-accent);
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: gap 0.2s ease;
+}
+
+.link-arrow:hover {
+  gap: 12px;
+}
+
+/* --- Tarjeta de producto --- */
+.product-card {
+  background: var(--gray-800);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--gray-800);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.18);
+}
+
+.product-card__media {
+  position: relative;
+  background: var(--color-white);
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  border-bottom: 1px solid var(--gray-300);
+}
+
+.product-card__media img {
+  max-height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-card__media img {
+  transform: scale(1.04);
+}
+
+.product-card__brand {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+  color: #1a1a1a !important;
+  z-index: 2;
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  text-transform: uppercase;
+}
+
+.product-card__body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.product-card__category {
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  font-weight: 600;
+}
+
+.product-card__name {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-white);
+  margin-bottom: 8px;
+  flex: 1;
+}
+
+/* --- Tarjeta de categoría --- */
+.category-card {
+  position: relative;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+  display: block;
+}
+
+.category-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.category-card:hover img {
+  transform: scale(1.06);
+}
+
+.category-card::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 45%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.55), transparent);
+  pointer-events: none;
+}
+
+.category-card__label {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  background: var(--grad-accent);
+  color: var(--color-white);
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-align: center;
+  padding: 14px 8px;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.category-card:hover .category-card__label {
+  transform: translateY(-4px);
+}
+
+/* --- Fade-up al hacer scroll ---
+   Se aplica vía JS (initScrollReveals en main.js). Sin blur: en un
+   sitio corporativo/industrial se buscó un reveal nítido y preciso,
+   no un efecto "soñado". La misma curva expo-out se usa en TODO el
+   sitio (barras, letras, tarjetas) para que se sienta un solo
+   sistema de animación, no efectos sueltos. */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(26px) scale(0.98);
+  transition:
+    opacity 0.7s var(--ease-premium),
+    transform 0.7s var(--ease-premium);
+  will-change: opacity, transform;
+}
+
+.fade-in-up.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-in-up {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* --- Barra de acento que se "dibuja" ---
+   Usada en .cat-showcase__bar (y su reutilización en why-us__head).
+   En vez de aparecer con opacity, se extiende de izquierda a
+   derecha — una animación con intención (precisión/medición) en
+   vez de un fade genérico repetido en cada sección. */
+.reveal-bar {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.6s var(--ease-premium);
+}
+
+.reveal-bar.is-visible {
+  transform: scaleX(1);
+}
+
+/* Anula cualquier transición activa — usado por JS cuando el
+   usuario SUBE y el elemento entra en viewport: aparece de
+   golpe sin animación. */
+.no-transition,
+.no-transition *,
+.no-transition *::before,
+.no-transition *::after {
+  transition: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-bar {
+    transform: none;
+    transition: none;
+  }
+}
+
+/* --- Scroll Float: animación letra por letra ---
+   Se activa vía JS (initScrollFloat en main.js). Reservada solo
+   para títulos (hero + section-title) — no se usa en más textos
+   para que mantenga su peso como el efecto "de entrada" principal,
+   sin competir con el resto de reveals. */
+.scroll-float {
+  display: inline;
+}
+
+.sf-char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.6em) scale(0.92);
+  transition:
+    opacity 0.55s var(--ease-premium),
+    transform 0.6s var(--ease-premium);
+  will-change: transform, opacity;
+}
+
+.scroll-float.is-visible .sf-char {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sf-char {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

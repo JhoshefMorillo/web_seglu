@@ -1,0 +1,239 @@
+/* ============================================
+   FOOTER — negro con logo SEGLU de fondo
+   Estilos del pie de página compartido en todas
+   las secciones (fuente: assets/partials/footer.html).
+   ============================================ */
+
+.site-footer {
+  --footer-divider: rgba(255, 255, 255, 0.12);
+
+  position: relative;
+  background: #000000;
+  overflow: hidden;
+}
+
+/* Logo SEGLU (mismo del nav) como marca de agua
+   detrás del contenido: se ve, pero no mucho. */
+.site-footer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("../img/logos/logo_seglu.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  opacity: 0.07;
+  pointer-events: none;
+}
+
+.site-footer__inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr 1.3fr;
+  gap: 40px;
+  padding: 56px 20px;
+  max-width: 100%;
+  margin-inline: 0;
+}
+
+.footer-col--brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-left: 18px;
+}
+
+.footer-social {
+  display: flex;
+  gap: 10px;
+}
+
+.footer-social__link {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  display: grid;
+  place-items: center;
+  transition: transform 0.2s ease;
+}
+
+.footer-social__badge {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+}
+
+/* Colores originales de cada red dentro del aro rojo */
+.footer-social__link--facebook .footer-social__badge {
+  background: #1877f2;
+  color: #ffffff;
+}
+
+.footer-social__link--tiktok .footer-social__badge {
+  background: #000000;
+  color: #ffffff;
+}
+
+.footer-social__link:hover {
+  transform: translateY(-3px);
+}
+
+/* --- Columnas de links (Categorías / Empresa) --- */
+.footer-col__title {
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-bottom: 20px;
+  padding-left: 12px;
+  border-left: 5px solid var(--color-accent);
+}
+
+.footer-col__list li {
+  margin-bottom: 12px;
+}
+
+.footer-col__list a {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.9rem;
+  transition:
+    color 0.2s ease,
+    padding-left 0.2s ease;
+}
+
+.footer-col__list a:hover {
+  color: #ffffff;
+  padding-left: 4px;
+}
+
+/* --- Columna de contacto --- */
+.footer-contact-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 16px;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.9rem;
+}
+
+.footer-contact-list svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: #ffffff;
+}
+
+.footer-contact-list a {
+  color: rgba(255, 255, 255, 0.85);
+  transition: color 0.2s ease;
+}
+
+.footer-contact-list a:hover {
+  color: #ffffff;
+}
+
+/* --- Barra inferior --- */
+.site-footer__bottom {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  border-top: 1px solid var(--footer-divider);
+  padding: 14px 24px;
+}
+
+.site-footer__bottom p {
+  flex: 1;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+.site-footer__bottom p a {
+  color: #ffffff;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.site-footer__bottom p a:hover {
+  color: var(--color-accent);
+}
+
+/* Libro de Reclamaciones — debajo de Contacto */
+.footer-libro-reclamaciones {
+  display: block;
+  max-width: 96px;
+  margin-top: 56px;
+  margin-left: 48px;
+}
+
+.footer-libro-reclamaciones img {
+  width: 100%;
+  height: auto;
+  display: block;
+  cursor: pointer;
+}
+
+/* Entrada escalonada del footer al cargar (auto-contained: no depende del
+   observer de reveals, y respeta prefers-reduced-motion). */
+@keyframes footer-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .site-footer__inner > * {
+    animation: footer-in 0.5s var(--ease-premium) both;
+  }
+  .site-footer__inner > *:nth-child(2) { animation-delay: 0.05s; }
+  .site-footer__inner > *:nth-child(3) { animation-delay: 0.1s; }
+  .site-footer__inner > *:nth-child(4) { animation-delay: 0.15s; }
+  .site-footer__bottom {
+    animation: footer-in 0.5s var(--ease-premium) 0.2s both;
+  }
+}
+
+@media (max-width: 960px) {
+  .site-footer__inner {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .footer-col--brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 860px) and (min-width: 501px) {
+  .site-footer__inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+
+  .footer-col--brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 500px) {
+  .site-footer__inner {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+@media (max-width: 640px) {
+  .site-footer__bottom {
+    flex-direction: column;
+    gap: 16px;
+  }
+}

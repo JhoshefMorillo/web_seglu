@@ -1,0 +1,585 @@
+/* ============================================
+   CONTACTO — estilos propios de la página de
+   contacto: hero, tarjetas de contacto y mapa.
+   ============================================ */
+
+.site-header {
+  background: var(--bg-header);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.site-header::before {
+  display: none;
+}
+
+.site-header .main-nav__link {
+  color: var(--color-black);
+}
+.site-header .main-nav__link.is-active {
+  color: var(--color-black);
+  font-weight: 700;
+}
+.site-header .search-toggle,
+.site-header .cart-btn {
+  color: var(--color-black);
+}
+.site-header .search-toggle:hover,
+.site-header .cart-btn:hover {
+  color: var(--color-accent);
+}
+.site-header .header-cta {
+  border-color: var(--color-black);
+  color: var(--color-black);
+}
+.site-header .header-cta::before {
+  background: var(--color-black);
+}
+.site-header .header-cta:hover {
+  color: var(--color-white);
+}
+
+/* ---------- HERO ----------
+   Texto negro, grande y en negrita sobre el fondo
+   normal de la página, con barrita naranja arriba.
+*/
+.page-banner {
+  background: var(--color-white);
+  color: var(--color-black);
+  padding: 42px 0 32px;
+}
+
+.page-banner__bar {
+  display: block;
+  width: 100px;
+  height: 12px;
+  background: var(--color-accent);
+  margin-bottom: 1px;
+}
+
+.page-banner .container {
+  max-width: none;
+  margin-inline: 0;
+  padding-inline: 90px;
+}
+
+.page-banner__title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(4rem, 9vw, 7rem);
+  line-height: 1.02;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+/* ---------- Tarjetas de contacto rápido ---------- */
+.contact-cards {
+  padding: var(--section-padding) 0 16px;
+  background: var(--color-white);
+}
+
+/* Fila: tarjetas de redes a la izquierda, horario a la derecha */
+.contact-cards__row {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.contact-cards__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  flex: 1 1 auto;
+  min-width: 0;
+  /* Tope de ancho: sin esto las tarjetas se estiran hasta tocar el horario
+     y dejan de verse "pegadas" a la izquierda. Con min-width:0 igual
+     encogen si la pantalla es estrecha, sin desbordar. */
+  max-width: 760px;
+  margin: 0;
+}
+
+.contact-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  padding: 28px 20px;
+  background: var(--color-white);
+  border: 1px solid var(--gray-100);
+  border-radius: var(--radius-md);
+  /* Halo suave que envuelve los 4 lados de la tarjeta */
+  box-shadow:
+    0 0 0 1px rgba(18, 18, 18, 0.03),
+    0 0 20px rgba(0, 0, 0, 0.05),
+    0 0 44px -12px rgba(0, 0, 0, 0.09);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.contact-card:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    0 0 0 1px rgba(18, 18, 18, 0.03),
+    0 0 20px rgba(0, 0, 0, 0.05),
+    0 0 44px -12px rgba(0, 0, 0, 0.09);
+}
+
+.contact-card__icon {
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+  color: var(--color-white);
+  transition: transform 0.3s ease;
+}
+
+.contact-card:hover .contact-card__icon {
+  transform: scale(1.08);
+}
+
+.contact-card__icon--wa {
+  background: #25d366;
+}
+
+.contact-card__icon--tiktok {
+  background: #010101;
+}
+
+.contact-card__icon--facebook {
+  background: #1877f2;
+}
+
+.contact-card__label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.contact-card__value {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.4;
+}
+
+/* ---------- Horario de Atención — grande, a la derecha de las tarjetas ---------- */
+.contact-schedule {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  max-width: none;
+  /* Empuja el horario al extremo derecho, dejando las tarjetas a la izquierda */
+  margin: 0 0 0 auto;
+  padding: 18px 28px;
+  background: var(--color-white, #ffffff);
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  box-shadow:
+    0 4px 20px -2px rgba(0, 0, 0, 0.06),
+    0 2px 6px -1px rgba(0, 0, 0, 0.04);
+}
+
+.contact-schedule__icon-wrap {
+  flex-shrink: 0;
+  width: 58px;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contact-schedule__icon {
+  width: 58px;
+  height: 58px;
+  display: block;
+}
+
+.contact-schedule__content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.contact-schedule__title {
+  font-family: var(--font-display, "Barlow Condensed", sans-serif);
+  font-size: 1.45rem;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--color-black, #111111);
+  margin: 0;
+  line-height: 1.1;
+}
+
+.contact-schedule__hours {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.contact-schedule__col {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.contact-schedule__days {
+  font-family: var(--font-body, "Inter", sans-serif);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #64748b;
+  line-height: 1.2;
+}
+
+.contact-schedule__time {
+  font-family: var(--font-body, "Inter", sans-serif);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #111827;
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+/* ---------- SECCIÓN MAPA (OPCIÓN B: ANCHO COMPLETO CON GOOGLE MAPS) ---------- */
+.contact-map {
+  background: var(--color-white);
+  padding: 20px 0 var(--section-padding);
+}
+
+.contact-map__head {
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.contact-map .section-title {
+  color: var(--ink);
+}
+
+.contact-map .cat-showcase__bar {
+  display: block;
+  margin: 0 auto 12px;
+}
+
+/* Marco completo del mapa */
+.contact-map__frame {
+  position: relative;
+  width: 100%;
+  height: 480px;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid #cbd5e1;
+  box-shadow:
+    0 4px 24px -2px rgba(0, 0, 0, 0.08),
+    0 2px 6px -1px rgba(0, 0, 0, 0.04);
+}
+
+/* Mapa de Google embebido ocupando todo el marco */
+.contact-map__iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: 0;
+  z-index: 0;
+}
+
+/* Botón flotante "Volver a la dirección" */
+.contact-map__ctrl {
+  position: absolute;
+  z-index: 400;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--color-white);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 999px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.28);
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease;
+}
+
+.contact-map__ctrl svg {
+  flex-shrink: 0;
+}
+
+.contact-map__ctrl--back {
+  top: 14px;
+  right: 14px;
+  background: var(--color-black);
+}
+
+.contact-map__ctrl--back:hover {
+  background: var(--gray-800);
+  transform: translateY(-2px);
+}
+
+/* Buscador de ruta (escribes tu origen y abre Google Maps con la ruta) */
+.contact-route {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 28px;
+  padding: 20px 22px;
+  background: var(--bg-surface);
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow:
+    0 4px 24px -2px rgba(0, 0, 0, 0.06),
+    0 2px 6px -1px rgba(0, 0, 0, 0.03);
+}
+
+.contact-route__icon {
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  color: var(--color-white);
+  background: var(--color-accent);
+}
+
+.contact-route__body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.contact-route__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--ink);
+}
+
+.contact-route__title a {
+  color: var(--brand-blue);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.contact-route__title a:hover {
+  text-decoration: underline;
+}
+
+.contact-route__controls {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.contact-route__input {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 12px 16px;
+  font: inherit;
+  font-size: 0.92rem;
+  color: var(--ink);
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.contact-route__input::placeholder {
+  color: #94a3b8;
+}
+
+.contact-route__input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(250, 2, 2, 0.12);
+}
+
+.contact-route__btn {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 22px;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #ffffff;
+  background: var(--color-accent);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease;
+}
+
+.contact-route__btn:hover {
+  background: var(--brand-red-hover);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 600px) {
+  .contact-route {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .contact-route__controls {
+    flex-direction: column;
+  }
+
+  .contact-route__btn {
+    justify-content: center;
+  }
+}
+
+/* ---------- Responsive ---------- */
+
+/* Por debajo de 1100px las 3 tarjetas + el horario (ya grande) no caben
+   en una fila: se apila y el horario queda centrado debajo, como antes. */
+@media (max-width: 1100px) {
+  .contact-cards__row {
+    display: block;
+  }
+
+  .contact-schedule {
+    max-width: 420px;
+    margin: 28px auto 0;
+  }
+}
+
+@media (max-width: 960px) {
+  .contact-cards__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .contact-cards__grid {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .contact-schedule {
+    padding: 18px 24px;
+    gap: 20px;
+  }
+
+  .contact-schedule__hours {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .contact-card {
+    padding: 24px 14px;
+  }
+
+  .contact-card__icon {
+    width: 56px;
+    height: 56px;
+  }
+
+  .contact-card__label {
+    font-size: 0.8rem;
+  }
+
+  .contact-card__value {
+    font-size: 0.82rem;
+  }
+
+  .contact-schedule {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px 16px;
+    margin-top: 24px;
+  }
+
+  .contact-schedule__hours {
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .contact-map__frame {
+    height: 350px;
+    border-radius: 16px;
+  }
+}
+
+/* ---------- MÓVIL adicional: banner ---------- */
+@media (max-width: 600px) {
+  .page-banner {
+    padding: 64px 0 48px;
+  }
+
+  .page-banner .container {
+    padding-inline: 20px;
+  }
+
+  .page-banner__title {
+    font-size: clamp(3rem, 12vw, 4.5rem);
+  }
+
+  .contact-cards__grid {
+    gap: 18px;
+  }
+}
+
+/* ---------- ANIMACIONES AL HACER SCROLL ----------
+   Se activan SOLO cuando el usuario baja (el JS agrega .active).
+   Al subir no se animan y al salir del viewport se reinician. */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Anula transición al subir (clase .no-transition de JS) */
+.no-transition,
+.no-transition *,
+.no-transition *::before,
+.no-transition *::after {
+  transition: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

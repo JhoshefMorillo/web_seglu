@@ -1,0 +1,763 @@
+/* ============================================
+   LAYOUT — header, nav, footer, botones flotantes
+   ============================================ */
+
+/* ---------- HEADER ---------- */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 100;
+  background: transparent;
+  transition:
+    background 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+/* --- Entrada del header al cargar ---
+   Baja con un pequeño delay respecto al hero, para que la jerarquía
+   se sienta intencional: primero el fondo, luego el chrome de
+   navegación se asienta encima. */
+@keyframes header-drop-in {
+  from {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.site-header {
+  animation: header-drop-in 0.6s var(--ease-premium) 0.15s backwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header {
+    animation: none;
+  }
+}
+
+/* Degradado oscuro sutil para que el nav se lea sobre el hero.
+   Se desvanece al hacer scroll, cuando entra el fondo blanco. */
+.site-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.55) 0%,
+    rgba(0, 0, 0, 0.2) 65%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Al bajar: fondo blanco sólido, sombra suave y sin degradado */
+.site-header.is-scrolled {
+  background: #ffffff;
+  box-shadow: 0 4px 24px rgba(7, 26, 61, 0.1);
+}
+
+.site-header.is-scrolled::before {
+  opacity: 0;
+}
+
+/* Sobre fondo blanco: textos e iconos del nav en grafito */
+.site-header.is-scrolled .main-nav__link {
+  color: var(--color-black);
+}
+.site-header.is-scrolled .main-nav__link.is-active {
+  color: var(--color-black);
+}
+.site-header.is-scrolled .search-toggle,
+.site-header.is-scrolled .cart-btn,
+.site-header.is-scrolled .hamburger__icon {
+  color: var(--color-black);
+}
+.site-header.is-scrolled .header-cta {
+  border-color: var(--color-black);
+  color: var(--color-black);
+}
+.site-header.is-scrolled .header-cta::before {
+  background: var(--color-black);
+}
+.site-header.is-scrolled .header-cta:hover {
+  color: #ffffff;
+}
+
+.site-header__inner {
+  position: relative;
+  z-index: 1;
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+/* El header ocupa todo el ancho: nav pegado a la izquierda y acciones
+   a la derecha, sin el margen del .container (solo un respiro lateral). */
+.site-header__inner.container {
+  max-width: none;
+  padding-inline: 32px;
+}
+
+.site-header__brand {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.site-header__logo {
+  height: 50px;
+  width: auto;
+  object-fit: contain;
+  /* Un poco más grande sin mover el resto del nav: escala visual
+     (el transform no altera el layout del header). */
+  transform: scale(1.2);
+  transform-origin: center;
+}
+
+.site-header__logo path,
+.site-header__logo g,
+.site-header__logo .logo-s,
+.site-header__logo .logo-text {
+  transition: fill 0.3s ease;
+}
+
+/* Cuando el nav está transparente sobre el hero: TODO el logo es BLANCO (#FFFFFF) */
+.site-header:not(.is-scrolled) .site-header__logo path,
+.site-header:not(.is-scrolled) .site-header__logo g,
+.site-header:not(.is-scrolled) .site-header__logo .logo-s,
+.site-header:not(.is-scrolled) .site-header__logo .logo-text {
+  fill: #FFFFFF !important;
+}
+
+/* Cuando el usuario baja (is-scrolled): vuelve a los colores normales (rojo y azul) */
+.site-header.is-scrolled .site-header__logo > path:first-of-type,
+.site-header.is-scrolled .site-header__logo .logo-s {
+  fill: #FF0000 !important;
+}
+
+.site-header.is-scrolled .site-header__logo g,
+.site-header.is-scrolled .site-header__logo g path,
+.site-header.is-scrolled .site-header__logo .logo-text,
+.site-header.is-scrolled .site-header__logo .logo-text path {
+  fill: #0343B0 !important;
+}
+
+/* Nav */
+.main-nav {
+  flex: 1 1 0;
+}
+
+.main-nav__list {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  padding-left: 8px;
+}
+
+.main-nav__link {
+  color: var(--color-white);
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding-bottom: 6px;
+  position: relative;
+}
+
+.main-nav__link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 3.5px;
+  border-radius: 2px;
+  background: var(--brand-red);
+  transition: width 0.25s ease;
+}
+
+.main-nav__link:hover::after,
+.main-nav__link.is-active::after {
+  width: 100%;
+}
+
+.main-nav__link.is-active {
+  color: inherit;
+}
+
+/* ---------- Migas de pan (Breadcrumbs) ---------- */
+.page-breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  font-family: var(--font-body);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.page-breadcrumb__link {
+  color: var(--ink-soft);
+  text-decoration: none;
+  transition: color 0.18s ease;
+}
+
+.page-breadcrumb__link:hover {
+  color: var(--brand-red);
+}
+
+.page-breadcrumb__sep {
+  color: #cbd5e1;
+  font-weight: 500;
+  font-size: 0.72rem;
+}
+
+.page-breadcrumb__current {
+  color: var(--ink);
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.18s ease;
+}
+
+.page-breadcrumb__current:hover {
+  color: var(--brand-red);
+}
+
+/* Acciones del header */
+.site-header__actions {
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px;
+}
+
+/* Buscador */
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-toggle {
+  color: var(--color-white);
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  transition: color 0.2s ease;
+}
+
+.search-form {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  width: 0;
+  overflow: hidden;
+  background: var(--bg-header);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  /* El panel del buscador comparte el color del nav, así que necesita
+     borde y sombra para separarse: sin esto sería invisible.
+     Si prefieres que destaque como tarjeta, ponle background: #ffffff aquí. */
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    width 0.3s ease,
+    opacity 0.2s ease;
+}
+
+.search-box[data-open="true"] .search-form {
+  width: 260px;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  color: var(--color-black);
+  background: transparent;
+}
+
+.search-submit {
+  color: var(--color-black);
+  display: grid;
+  place-items: center;
+  padding: 0 10px;
+  height: 100%;
+}
+
+/* Carrito */
+.cart-btn {
+  color: var(--color-white);
+  display: grid;
+  place-items: center;
+  transition: color 0.2s ease;
+}
+
+/* CTA del header ("Cotiza ahora") — relleno horizontal (::before)
+   + brillo specular en diagonal (::after) que cruza por encima
+   del botón al pasar el mouse. z-index: -1 mantiene el relleno
+   detrás del texto; el ::after va por encima con opacidad baja
+   para no taparlo, solo se percibe como un reflejo de luz. */
+.header-cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 22px;
+  border: 1.5px solid var(--color-white);
+  border-radius: 999px;
+  color: var(--color-white);
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  z-index: 1;
+  transition:
+    color 0.4s ease,
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
+}
+
+.header-cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--color-white);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s cubic-bezier(0.65, 0, 0.35, 1);
+  z-index: -1;
+}
+
+.header-cta:hover {
+  color: var(--color-black);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+  transform: translateY(-2px);
+}
+
+.header-cta:hover::before {
+  transform: scaleX(1);
+}
+
+/* Hamburguesa (solo mobile) */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+}
+
+.hamburger__icon {
+  width: 24px;
+  height: 24px;
+  color: var(--color-white);
+  transition: color 0.25s ease;
+}
+
+.hamburger__icon line {
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    transform 0.3s var(--ease-premium),
+    opacity 0.25s ease;
+}
+
+/* La línea del medio es un poco más corta: toque más fino */
+.hamburger__icon line:nth-child(2) {
+  transform: translateX(1px);
+}
+
+.hamburger:hover .hamburger__icon {
+  color: var(--color-accent);
+}
+
+/* Footer movido a assets/css/footer.css (footer único compartido). */
+
+/* ---------- Botones flotantes ---------- */
+/* Botón WhatsApp: tamaño grande, con "luces" que parpadean
+   (ondas + brillo) y un mensajito que aparece al acercar el
+   cursor. */
+.whatsapp-float {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 25%, #4ce07c, #25d366 60%, #1eb457);
+  color: var(--color-white);
+  display: grid;
+  place-items: center;
+  z-index: 90;
+  box-shadow:
+    0 6px 20px rgba(0, 0, 0, 0.4),
+    0 0 0 0 rgba(37, 211, 102, 0.55);
+  animation: whatsapp-glow 2.6s ease-in-out infinite;
+  transition: transform 0.2s ease;
+}
+
+.whatsapp-float svg {
+  width: 34px;
+  height: 34px;
+  display: block;
+}
+
+/* Anillos expansivos que simulan "luces" alrededor */
+.whatsapp-float::before,
+.whatsapp-float::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid rgba(37, 211, 102, 0.5);
+  animation: whatsapp-pulse 2.2s ease-out infinite;
+}
+
+.whatsapp-float::after {
+  animation-delay: 0.7s;
+}
+
+/* Brillo suave del botón (sin puntito decorativo) */
+.whatsapp-float:hover {
+  transform: scale(1.1);
+}
+
+@keyframes whatsapp-glow {
+  0%,
+  100% {
+    box-shadow:
+      0 6px 20px rgba(0, 0, 0, 0.4),
+      0 0 0 0 rgba(37, 211, 102, 0.55);
+  }
+  50% {
+    box-shadow:
+      0 6px 20px rgba(0, 0, 0, 0.4),
+      0 0 0 14px rgba(37, 211, 102, 0);
+  }
+}
+
+@keyframes whatsapp-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1.45);
+    opacity: 0;
+  }
+}
+
+/* Mensajito que aparece al acercar el cursor */
+.whatsapp-float__tip {
+  position: absolute;
+  right: calc(100% + 16px);
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  background: var(--color-black);
+  color: var(--color-white);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 10px 16px;
+  border-radius: 10px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    visibility 0.2s;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+/* Libro de Reclamaciones del footer: movido a assets/css/footer.css. */
+
+/* Puntero del mensajito hacia el botón */
+.whatsapp-float__tip::after {
+  content: "";
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 7px solid transparent;
+  border-left-color: var(--color-black);
+}
+
+.whatsapp-float:hover {
+  transform: scale(1.1);
+}
+
+.whatsapp-float:hover .whatsapp-float__tip {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(8px, -50%);
+}
+
+@media (max-width: 560px) {
+  .whatsapp-float {
+    width: 60px;
+    height: 60px;
+    bottom: 22px;
+    right: 22px;
+  }
+
+  .whatsapp-float svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  .whatsapp-float__tip {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .whatsapp-float,
+  .whatsapp-float::before,
+  .whatsapp-float::after {
+    animation: none;
+  }
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 960px) {
+  .main-nav {
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    bottom: 0;
+    width: min(420px, 92vw);
+    z-index: 99;
+    background: var(--bg-header);
+    transform: translateX(-100%);
+    transition: transform 0.35s var(--ease-premium);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-top: max(16px, env(safe-area-inset-top));
+    box-shadow: 8px 0 32px rgba(0, 0, 0, 0.18);
+  }
+
+  .main-nav[data-open="true"] {
+    transform: translateX(0);
+  }
+
+  .main-nav__list {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 8px 24px 48px;
+    gap: 6px;
+  }
+
+  .main-nav__list li {
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .main-nav__link {
+    display: block;
+    padding: 16px 8px;
+    font-size: 1.2rem;
+    color: var(--color-black);
+    transition: color 0.2s ease;
+  }
+
+  .main-nav__link:hover,
+  .main-nav__link.is-active {
+    color: var(--color-accent);
+  }
+
+  .main-nav__link::after {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  /* Transforma el ícono en una X al abrir el menú */
+  .hamburger[aria-expanded="true"] .hamburger__icon line:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+  }
+  .hamburger[aria-expanded="true"] .hamburger__icon line:nth-child(2) {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  .hamburger[aria-expanded="true"] .hamburger__icon line:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+  .hamburger[aria-expanded="true"] .hamburger__icon {
+    color: var(--color-accent);
+  }
+}
+
+/* ============================================
+   MEJORAS RESPONSIVE GLOBALES (mobile primero)
+   ============================================ */
+
+/* Header móvil (≤960px):
+   - TRANSPARENTE sobre el hero hasta que el usuario haga scroll,
+     idéntico al comportamiento de escritorio (el degradado del hero
+     ya asegura contraste). Al bajar, pasa a fondo sólido.
+   - Hamburguesa a la IZQUIERDA, logo al CENTRO, carrito a la DERECHA
+   - Mantiene el CTA oculto y el buscador dentro del menú */
+@media (max-width: 960px) {
+  .site-header {
+    z-index: 120;
+    background: transparent;
+    border-bottom: none;
+    box-shadow: 0 2px 12px rgba(7, 26, 61, 0.12);
+  }
+
+  /* Sobre el hero (transparente): hamburguesa/lupa/carrito en blanco */
+  .site-header:not(.is-scrolled) .search-toggle,
+  .site-header:not(.is-scrolled) .cart-btn,
+  .site-header:not(.is-scrolled) .hamburger__icon {
+    color: var(--ink-on-dark);
+  }
+
+  /* Al bajar: barra sólida + iconos en grafito */
+  .site-header.is-scrolled {
+    background: var(--bg-header);
+    border-bottom: 1px solid var(--border-color);
+  }
+  .site-header.is-scrolled .search-toggle,
+  .site-header.is-scrolled .cart-btn,
+  .site-header.is-scrolled .hamburger__icon {
+    color: var(--color-black);
+  }
+
+  /* En móvil el degradado del hero no se muestra */
+  .site-header::before {
+    display: none;
+  }
+
+  /* El contenedor de la barra: grid 3 zonas = hamburguesa | logo | carrito */
+  .site-header__inner {
+    position: relative;
+    gap: 0;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+  }
+
+  .site-header__inner.container {
+    padding-inline: 16px;
+  }
+
+  /* Logo centrado */
+  .site-header__brand {
+    grid-column: 2;
+    justify-self: center;
+  }
+
+  .site-header__logo {
+    height: 48px;
+  }
+
+  /* Acciones a la derecha: solo carrito */
+  .site-header__actions {
+    grid-column: 3;
+    justify-self: end;
+    gap: 8px;
+  }
+
+  /* El buscador se oculta en móvil para mantener la barra limpia */
+  .search-box {
+    display: none;
+  }
+
+  /* Zonas táctiles cómodas (44px mínimo recomendado en móvil) */
+  .cart-btn {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+  }
+
+  .header-cta {
+    display: none;
+  }
+
+  /* Hamburguesa anclada a la izquierda, fuera de flujo.
+     Ícono más pequeño y fino (30px) pero con área táctil amplia */
+  .hamburger {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+  }
+}
+
+/* Header: en pantallas chicas reduce el alto y compacta el logo */
+@media (max-width: 700px) {
+  :root {
+    --header-height: 72px;
+  }
+
+  .site-header__logo {
+    height: 44px;
+  }
+
+  .site-header__actions {
+    gap: 8px;
+  }
+
+  .header-cta {
+    padding: 8px 13px;
+    font-size: 0.75rem;
+  }
+}
+
+/* Pantallas muy pequeñas: el CTA se vuelve un icono compacto,
+   y el texto del brand puede recortarse para no desbordar */
+@media (max-width: 420px) {
+  .site-header__logo {
+    height: 40px;
+  }
+
+  .header-cta {
+    padding: 8px 10px;
+    font-size: 0.7rem;
+  }
+}
+
+/* WhatsApp flotante: un poco más pequeño y bien posicionado en mobile */
+@media (max-width: 600px) {
+  .whatsapp-float {
+    bottom: 20px;
+    right: 20px;
+    width: 54px;
+    height: 54px;
+  }
+}

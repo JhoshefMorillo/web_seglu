@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tu Carrito | SEGLU</title>
+    <meta name="description" content="Revisa tu carrito de productos SEGLU y cotiza fácil por WhatsApp." />
+    <link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon/favicon-96x96.png" />
+    <link rel="icon" type="image/svg+xml" href="assets/img/favicon/favicon.svg" />
+    <link rel="apple-touch-icon" href="assets/img/favicon/apple-touch-icon.png" />
+    <link rel="stylesheet" href="assets/css/fonts.css" />
+    <link rel="stylesheet" href="assets/css/base.css" />
+    <link rel="stylesheet" href="assets/css/componentes.css" />
+    <link rel="stylesheet" href="assets/css/layout.css" />
+    <link rel="stylesheet" href="assets/css/search.css" />
+    <link rel="stylesheet" href="assets/css/carrito.css" />
+    <link rel="stylesheet" href="assets/css/footer.css" />
+    <link rel="stylesheet" href="assets/css/pages/carrito.css" />
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="site-header">
+      <div class="site-header__inner container">
+        <nav class="main-nav" aria-label="Navegación principal">
+          <ul class="main-nav__list">
+            <li><a href="nosotros.html" class="main-nav__link">Nosotros</a></li>
+            <li><a href="productos.html" class="main-nav__link">Productos</a></li>
+            <li><a href="contacto.html" class="main-nav__link">Contacto</a></li>
+          </ul>
+        </nav>
+        <a href="index.html" class="site-header__brand" aria-label="SEGLU — Inicio">
+          <svg class="site-header__logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 533" width="150" height="50" role="img" aria-label="SEGLU SAC">
+            <title>SEGLU SAC</title>
+            <path class="logo-s" fill="#FF0000" d="M150,70 L1480,70 C1540,70 1585,110 1585,160 L1483,160 C1483,138 1470,128 1445,128 L160,128 C135,128 120,140 120,155 C120,168 130,175 150,178 L290,195 C340,202 372,245 372,292 C372,345 335,385 280,390 L105,390 C55,390 15,355 15,305 L15,278 L135,278 L135,293 C135,305 147,311 160,311 L228,311 C242,311 249,303 249,291 C249,278 238,270 220,268 L90,250 C45,243 18,215 18,180 C18,120 80,70 150,70 Z"/>
+            <g class="logo-text" fill="#0343B0">
+              <path d="M392,175 H608 V226 H462 V253 H593 V309 H462 V337 H605 V390 H392 Z"/>
+              <path d="M690,172 H820 C855,172 875,200 875,235 V258 H787 V240 C787,232 780,227 772,227 H718 C708,227 703,235 703,245 V318 C703,330 710,337 722,337 H765 C773,337 776,330 776,322 V315 H740 V278 H875 V425 L785,390 H665 C635,390 617,365 617,335 V230 C617,195 645,172 690,172 Z"/>
+              <path d="M889,172 H975 V337 H1107 V390 H889 Z"/>
+              <path d="M1121,172 H1213 V320 C1213,331 1220,337 1230,337 H1272 C1282,337 1287,331 1287,320 V172 H1380 V300 C1380,355 1340,390 1290,390 H1210 C1160,390 1121,355 1121,300 Z"/>
+              <path d="M1420,168 H1469 C1477,168 1483,172 1483,178 V182 H1432 V188 H1483 V212 C1483,218 1477,222 1469,222 H1420 C1412,222 1406,218 1406,212 V208 H1457 V202 H1406 V178 C1406,172 1412,168 1420,168 Z"/>
+              <path fill-rule="evenodd" d="M1428,245 H1462 L1482,312 H1452 L1450,303 H1436 L1434,312 H1404 Z M1442,265 L1448,285 H1438 Z"/>
+              <path d="M1420,322 H1468 C1476,322 1482,328 1482,336 V345 H1453 V342 C1453,340 1451,339 1449,339 H1438 C1435,339 1433,341 1433,344 V368 C1433,371 1435,373 1438,373 H1449 C1451,373 1453,371 1453,369 V366 H1482 V376 C1482,385 1476,390 1468,390 H1420 C1411,390 1405,385 1405,377 V335 C1405,327 1411,322 1420,322 Z"/>
+            </g>
+          </svg>
+        </a>
+        <div class="site-header__actions">
+          <div class="search-box">
+            <button class="search-toggle" aria-label="Abrir búsqueda" aria-expanded="false">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </button>
+            <form class="search-form" role="search" action="productos.html" method="get">
+              <input type="search" name="q" class="search-input" placeholder="Buscar productos..." autocomplete="off" />
+              <button type="submit" class="search-submit" aria-label="Buscar">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path><path d="M21 21l-6 -6"></path></svg>
+              </button>
+            </form>
+          </div>
+          <button type="button" class="cart-btn" data-cart-open aria-label="Ver carrito">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+            <span class="cart-btn__badge" data-cart-badge hidden>0</span>
+          </button>
+          <a href="https://wa.me/51904881704?text=Hola%2C%20SEGLU." target="_blank" rel="noopener" class="header-cta">Cotiza ahora</a>
+          <button class="hamburger" aria-label="Abrir menú" aria-expanded="false">
+            <svg class="hamburger__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="5" y1="12" x2="19" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="carrito-page">
+        <div class="container">
+          <p class="carrito-page__breadcrumb"><a href="index.html">Inicio</a> / <span>Carrito</span></p>
+          <h1 class="carrito-page__title">Tu Carrito</h1>
+          <div class="carrito-page__title-bar"></div>
+
+          <div class="carrito-page__layout">
+            <!-- Columna productos -->
+            <div>
+              <div id="cartPageFull" class="cart-table" hidden>
+                <div class="cart-table__head">
+                  <div class="cart-table__head-cell"></div>
+                  <div class="cart-table__head-cell">Producto</div>
+                  <div class="cart-table__head-cell cart-table__head-cell--qty">Cantidad</div>
+                  <div class="cart-table__head-cell"></div>
+                </div>
+                <div class="cart-table__body" id="cartPageRows"></div>
+                <div class="cart-pagination" id="cartPagePagination" hidden></div>
+              </div>
+
+              <div id="cartPageEmpty" class="cart-empty-page">
+                <svg class="cart-empty-page__icon" width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                <p class="cart-empty-page__title">Tu carrito está vacío</p>
+                <p class="cart-empty-page__sub">Agrega productos para comenzar tu cotización.</p>
+                <a href="productos.html" class="cart-empty-page__btn">← Volver a Productos</a>
+              </div>
+            </div>
+
+            <!-- Sidebar -->
+            <aside class="cart-sidebar">
+              <div class="cart-summary">
+                <h2 class="cart-summary__title">Resumen</h2>
+                <div class="cart-summary__row"><span>Productos</span><strong id="cartSummaryItems">0</strong></div>
+                <div class="cart-summary__row"><span>Unidades totales</span><strong id="cartSummaryQty">0</strong></div>
+                <div class="cart-summary__total"><span>Total</span><span>A cotizar</span></div>
+                <p class="cart-summary__note">Los precios se confirman por WhatsApp</p>
+              </div>
+              <a id="cartPageWa" href="#" target="_blank" rel="noopener" class="cart-sidebar__wa is-disabled">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+                Cotizar por WhatsApp
+              </a>
+            </aside>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div data-footer></div>
+
+    <!-- Drawer lateral -->
+    <div class="cart-drawer" data-cart-drawer aria-hidden="true">
+      <div class="cart-drawer__overlay" data-cart-backdrop></div>
+      <aside class="cart-drawer__panel">
+        <header class="cart-drawer__head">
+          <h2 class="cart-drawer__title">Mi Pedido <span data-cart-count>0</span></h2>
+          <button type="button" class="cart-drawer__close" data-cart-close aria-label="Cerrar carrito">×</button>
+        </header>
+        <div class="cart-drawer__body" data-cart-body></div>
+         <footer class="cart-drawer__foot">
+           <a class="cart-drawer__wa is-disabled" data-cart-wa target="_blank" rel="noopener" aria-label="Pedir por WhatsApp">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+            Pedir por WhatsApp
+           </a>
+       </footer>
+      </aside>
+    </div>
+
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/catalog.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/search.js"></script>
+    <script src="assets/js/carrito.js"></script>
+    <script src="assets/js/footer.js"></script>
+
+    <script src="assets/js/carrito-page.js"></script>
+  </body>
+
+</html>

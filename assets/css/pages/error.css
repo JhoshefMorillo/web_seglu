@@ -1,0 +1,90 @@
+/* ============================================
+   ERROR 404 — página de "página no encontrada"
+   Página autónoma: solo el error, centrado
+   ============================================ */
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--color-black);
+  background: var(--color-white);
+}
+
+.error-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  text-align: center;
+}
+
+.error-page__inner {
+  max-width: 620px;
+}
+
+.error-page__code {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(7rem, 18vw, 14rem);
+  line-height: 0.9;
+  color: var(--color-black);
+  margin: 0 0 24px;
+  letter-spacing: 0.02em;
+}
+
+.error-page__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.9rem, 4vw, 3rem);
+  line-height: 1.05;
+  color: var(--color-black);
+  text-transform: uppercase;
+  margin: 0 0 16px;
+}
+
+.error-page__sub {
+  color: var(--gray-500);
+  font-size: 1.1rem;
+  line-height: 1.65;
+  margin: 0 auto 28px;
+  max-width: 520px;
+}
+
+.error-page__sad {
+  font-size: 2.2rem;
+  line-height: 1;
+  color: var(--gray-500);
+  margin: 0 0 40px;
+}
+
+/* ---------- Botón ---------- */
+.error-btn {
+  display: inline-block;
+  padding: 14px 32px;
+  border-radius: 6px;
+  background: var(--color-black);
+  color: var(--color-white);
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: var(--font-body);
+  text-decoration: none;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease;
+}
+
+.error-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.error-btn:active {
+  transform: translateY(0);
+}
