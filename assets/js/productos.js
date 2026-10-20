@@ -760,6 +760,9 @@ function initCatalogPage() {
       mostrarErrorModal("Debes ingresar al menos 1 unidad para agregar al carrito.");
       return;
     }
+    if (modalAdd.disabled) return;
+    modalAdd.disabled = true;
+
     const snapshot = {
       id: modalProducto.id,
       name: modalProducto.name,
@@ -767,13 +770,36 @@ function initCatalogPage() {
       categoria: modalProducto.categoria,
       image: modalProducto.image || "",
     };
-    if (window.SEGLU_CART) {
-      window.SEGLU_CART.add(snapshot, modalQty, modalTalla);
-      modalCerrar();
-      window.SEGLU_CART.open();
-    } else {
-      alert("El carrito aún no está disponible.");
-    }
+
+    const originalAddHtml = modalAdd.innerHTML;
+    modalAdd.classList.add("is-added");
+    modalAdd.innerHTML = `
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+      <strong>¡AGREGADO!</strong>
+    `;
+
+    animarVueloAlCarrito(modalImg, modalProducto, () => {
+      if (window.SEGLU_CART) {
+        window.SEGLU_CART.add(snapshot, modalQty, modalTalla);
+      }
+      const cartBtn =
+        document.querySelector(".cart-btn") ||
+        document.querySelector("[data-cart-open]");
+      if (cartBtn) {
+        cartBtn.classList.remove("cart-bump");
+        void cartBtn.offsetWidth;
+        cartBtn.classList.add("cart-bump");
+        setTimeout(() => cartBtn.classList.remove("cart-bump"), 700);
+      }
+
+      setTimeout(() => {
+        modalAdd.classList.remove("is-added");
+        modalAdd.innerHTML = originalAddHtml;
+        modalAdd.disabled = false;
+      }, 1500);
+    });
   });
 
   document.addEventListener("keydown", (e) => {

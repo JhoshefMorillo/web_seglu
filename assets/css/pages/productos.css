@@ -352,6 +352,17 @@ main {
 /* Tarjetas de producto: SIN cuadro blanco. La imagen y la info flotan
    directamente sobre el fondo de la págna (fondo normal), como en el
    inicio (categoría de productos): no se ve una caja blanca encima. */
+@keyframes card-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .catalog-grid .product-card {
   background: transparent;
   border: none;
@@ -362,6 +373,13 @@ main {
   height: 100%;
   min-width: 0;
   box-shadow: none;
+  animation: card-fade-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+
+.catalog-grid .product-card:hover {
+  transform: none;
+  box-shadow: none;
+  background: transparent;
 }
 
 /* Imagen sin fondo */
@@ -372,19 +390,20 @@ main {
   display: grid;
   place-items: center;
   padding: 18px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  border-bottom: none;
 }
 
 .catalog-grid .product-card__media img {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
-  transition: transform 0.3s ease;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: none;
 }
 
 .catalog-grid .product-card:hover .product-card__media img {
-  transform: translateY(-5px) scale(1.02);
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+  transform: translateY(-6px) scale(1.06);
+  box-shadow: none;
 }
 
 /* Marca: solo el nombre en texto limpio, sin recuadro ni fondo, en COLOR NEGRITO */
@@ -782,10 +801,10 @@ main {
   display: grid;
   grid-template-columns: 44% 1fr;
   opacity: 0;
-  transform: translateY(24px) scale(0.98);
+  transform: translateY(18px) scale(0.97);
   transition:
-    opacity 0.35s var(--ease-premium),
-    transform 0.35s var(--ease-premium);
+    opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   box-shadow: 0 32px 80px rgba(0, 0, 0, 0.45);
 }
 
@@ -828,13 +847,13 @@ main {
   background: rgba(0, 0, 0, 0.55);
   color: var(--color-white);
   transition:
-    background 0.2s ease,
-    transform 0.15s ease;
+    background 0.25s ease,
+    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .prod-modal__close:hover {
   background: var(--color-accent);
-  transform: rotate(90deg);
+  transform: rotate(90deg) scale(1.08);
 }
 
 /* Galería de imágenes: transparente, foto principal grande arriba + 4 fotos abajo sin recuadros ni contornos */
@@ -1045,11 +1064,19 @@ main {
   place-items: center;
   color: var(--ink);
   font-size: 1.05rem;
-  transition: background 0.15s ease;
+  transition:
+    background 0.15s ease,
+    transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1);
+  user-select: none;
 }
 
 .prod-modal__qty button:hover {
   background: var(--gray-100);
+}
+
+.prod-modal__qty button:active {
+  transform: scale(0.85);
+  background: var(--gray-200);
 }
 
 .prod-modal__qty input[type="number"] {
@@ -1103,6 +1130,15 @@ main {
   filter: brightness(1.06);
   transform: translateY(-2px);
   box-shadow: 0 10px 24px rgba(237, 1, 1, 0.4);
+}
+
+.prod-modal__add.is-added {
+  background: #16a34a !important;
+  border-color: #16a34a !important;
+  color: #ffffff !important;
+  box-shadow: 0 6px 20px rgba(22, 163, 74, 0.4) !important;
+  transform: translateY(-1px);
+  pointer-events: none;
 }
 
 .prod-modal__cotizar {

@@ -56,9 +56,9 @@
   --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
 
   /* ---------- Layout ---------- */
-  --header-height: 90px;
-  --container-max: 1280px;
-  --section-padding: 88px;
+  --header-height: 80px;
+  --container-max: 1200px;
+  --section-padding: 76px;
 
   /* ---------- Bordes y sombras ---------- */
   --radius-sm: 4px;
@@ -116,6 +116,13 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--header-height) + 12px);
   overflow-x: clip;
+}
+
+/* Escala nativa desktop/laptop: emula con fidelidad y nitidez el look de 90% de zoom */
+@media (min-width: 1024px) {
+  html {
+    font-size: 90%;
+  }
 }
 
 body {

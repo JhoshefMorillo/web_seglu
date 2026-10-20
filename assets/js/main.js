@@ -41,76 +41,213 @@ function safeInit(fn) {
 /**
  * Menú hamburguesa (mobile)
  */
+/**
+ * Menú lateral móvil ("3 rayitas")
+ * Vive directamente en document.body para evitar clipping del header
+ */
 function initMobileNav() {
   const hamburger = document.querySelector(".hamburger");
-  const mainNav = document.querySelector(".main-nav");
+  if (!hamburger) return;
 
-  if (!hamburger || !mainNav) return;
+  let drawer = document.getElementById("mobileDrawer");
+  if (!drawer) {
+    drawer = document.createElement("div");
+    drawer.id = "mobileDrawer";
+    drawer.className = "mobile-drawer";
+    drawer.setAttribute("aria-hidden", "true");
+    drawer.innerHTML = `
+      <div class="mobile-drawer__overlay" data-drawer-close></div>
+      <aside class="mobile-drawer__panel">
+        <button type="button" class="mobile-drawer__close" data-drawer-close aria-label="Cerrar menú">×</button>
+        <ul class="mobile-drawer__list">
+          <li><a href="index.html" class="mobile-drawer__link">Inicio</a></li>
+          <li><a href="productos.html" class="mobile-drawer__link">Productos</a></li>
+          <li><a href="nosotros.html" class="mobile-drawer__link">Nosotros</a></li>
+          <li><a href="contacto.html" class="mobile-drawer__link">Contacto</a></li>
+        </ul>
+        <div class="mobile-drawer__footer">
+          <p class="mobile-drawer__slogan">¡SOLUCIONES EN EQUIPOS DE PROTECCIÓN PERSONAL!</p>
+        </div>
+      </aside>
+    `;
+    document.body.appendChild(drawer);
+  }
+
+  const openNav = () => {
+    drawer.setAttribute("data-open", "true");
+    drawer.setAttribute("aria-hidden", "false");
+    hamburger.setAttribute("aria-expanded", "true");
+    document.body.style.overflow = "hidden";
+  };
+
+  const closeNav = () => {
+    drawer.setAttribute("data-open", "false");
+    drawer.setAttribute("aria-hidden", "true");
+    hamburger.setAttribute("aria-expanded", "false");
+    document.body.style.overflow = "";
+  };
 
   hamburger.addEventListener("click", () => {
-    const isOpen = mainNav.getAttribute("data-open") === "true";
-    mainNav.setAttribute("data-open", String(!isOpen));
-    hamburger.setAttribute("aria-expanded", String(!isOpen));
+    const isOpen = drawer.getAttribute("data-open") === "true";
+    if (isOpen) closeNav();
+    else openNav();
   });
 
-  // Cierra el menú al pulsar un enlace, tocar fuera del panel o tecla Escape
-  mainNav.addEventListener("click", (e) => {
+  drawer.querySelectorAll("[data-drawer-close]").forEach((btn) => {
+    btn.addEventListener("click", closeNav);
+  });
+
+  drawer.addEventListener("click", (e) => {
     if (e.target.closest("a")) {
-      mainNav.setAttribute("data-open", "false");
-      hamburger.setAttribute("aria-expanded", "false");
+      closeNav();
     }
   });
 
-  document.addEventListener("click", (e) => {
-    if (mainNav.getAttribute("data-open") !== "true") return;
-    if (e.target.closest(".main-nav") || e.target.closest(".hamburger")) return;
-    mainNav.setAttribute("data-open", "false");
-    hamburger.setAttribute("aria-expanded", "false");
-  });
-
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && mainNav.getAttribute("data-open") === "true") {
-      mainNav.setAttribute("data-open", "false");
-      hamburger.setAttribute("aria-expanded", "false");
+    if (e.key === "Escape" && drawer.getAttribute("data-open") === "true") {
+      closeNav();
     }
   });
 }
 
 /**
- * Buscador expandible del header
+ * Buscador:
+ * - En móvil: modal blanco de pantalla completa que baja desde arriba y tapa lo de atrás.
+ * - En desktop: input expandible inline en la barra de navegación.
  */
 function initSearchBox() {
   const searchBox = document.querySelector(".search-box");
   const searchToggle = document.querySelector(".search-toggle");
-  const searchForm = document.querySelector(".search-form");
-  const searchInput = document.querySelector(".search-input");
+  if (!searchToggle) return;
 
-  if (!searchBox || !searchToggle) return;
+  // Inyectar modal blanco de búsqueda móvil en body
+  let searchModal = document.getElementById("mobileSearchModal");
+  if (!searchModal) {
+    searchModal = document.createElement("div");
+    searchModal.id = "mobileSearchModal";
+    searchModal.className = "mobile-search-modal";
+    searchModal.setAttribute("aria-hidden", "true");
+    searchModal.innerHTML = `
+      <div class="mobile-search-modal__content">
+        <div class="mobile-search-modal__bar">
+          <svg class="mobile-search-modal__icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <form class="mobile-search-modal__form" action="productos.html" method="get">
+            <input type="search" name="q" class="mobile-search-modal__input" placeholder="Buscar productos en SEGLU..." autocomplete="off" />
+          </form>
+          <button type="button" class="mobile-search-modal__close" aria-label="Cerrar búsqueda">×</button>
+        </div>
+        <div class="mobile-search-modal__body">
+          <div class="mobile-search-modal__tags-wrap">
+            <p class="mobile-search-modal__label">Búsquedas populares:</p>
+            <div class="mobile-search-modal__tags">
+              <a href="productos.html?q=casco">Cascos</a>
+              <a href="productos.html?q=guantes">Guantes</a>
+              <a href="productos.html?q=botas">Calzado</a>
+              <a href="productos.html?q=lentes">Lentes</a>
+              <a href="productos.html?q=chaleco">Chalecos</a>
+              <a href="productos.html?q=arnes">Arneses</a>
+              <a href="productos.html?q=3M">3M</a>
+            </div>
+          </div>
+          <div class="mobile-search-modal__results"></div>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(searchModal);
+  }
+
+  const modalInput = searchModal.querySelector(".mobile-search-modal__input");
+  const modalClose = searchModal.querySelector(".mobile-search-modal__close");
+  const modalResults = searchModal.querySelector(".mobile-search-modal__results");
+
+  const openMobileSearch = () => {
+    searchModal.setAttribute("data-open", "true");
+    searchModal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    setTimeout(() => modalInput?.focus(), 120);
+  };
+
+  const closeMobileSearch = () => {
+    searchModal.setAttribute("data-open", "false");
+    searchModal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+    if (modalInput) modalInput.value = "";
+    if (modalResults) modalResults.innerHTML = "";
+  };
 
   searchToggle.addEventListener("click", (e) => {
-    e.preventDefault();
-    const isOpen = searchBox.getAttribute("data-open") === "true";
-    searchBox.setAttribute("data-open", String(!isOpen));
-    searchToggle.setAttribute("aria-expanded", String(!isOpen));
-
-    if (!isOpen) {
-      setTimeout(() => searchInput?.focus(), 150);
-    }
-  });
-
-  // Evita que el envío del buscador recargue la página cuando el
-  // campo está vacío (solo se navega si hay un término real).
-  searchForm?.addEventListener("submit", (e) => {
-    const q = (searchInput?.value || "").trim();
-    if (!q) {
+    if (window.innerWidth <= 960) {
       e.preventDefault();
-      searchBox.setAttribute("data-open", "false");
-      searchToggle.setAttribute("aria-expanded", "false");
+      openMobileSearch();
+      return;
+    }
+    // Desktop: abrir/cerrar inline
+    if (searchBox) {
+      const isOpen = searchBox.getAttribute("data-open") === "true";
+      searchBox.setAttribute("data-open", String(!isOpen));
+      searchToggle.setAttribute("aria-expanded", String(!isOpen));
+      if (!isOpen) {
+        setTimeout(() => searchBox.querySelector(".search-input")?.focus(), 150);
+      }
     }
   });
 
+  modalClose?.addEventListener("click", closeMobileSearch);
+
+  // Búsqueda en vivo dentro del modal móvil
+  const renderMobileResults = () => {
+    const q = (modalInput?.value || "").trim();
+    if (!q) {
+      modalResults.innerHTML = "";
+      return;
+    }
+    if (typeof PRODUCTOS === "undefined") return;
+
+    const term = q.toLowerCase();
+    const items = PRODUCTOS.filter(
+      (p) =>
+        p.name.toLowerCase().includes(term) ||
+        (p.marca && p.marca.toLowerCase().includes(term)) ||
+        p.categoria.toLowerCase().includes(term)
+    ).slice(0, 6);
+
+    const href = `productos.html?q=${encodeURIComponent(q)}`;
+
+    if (items.length === 0) {
+      modalResults.innerHTML = `<p class="mobile-search-empty">No encontramos "<strong>${q}</strong>". Prueba con otra palabra.</p>`;
+      return;
+    }
+
+    modalResults.innerHTML = `
+      <p class="mobile-search-count">${items.length} productos encontrados</p>
+      ${items
+        .map(
+          (p) => `
+        <a class="mobile-search-item" href="productos.html?q=${encodeURIComponent(p.name)}">
+          <img src="${p.image || ''}" alt="${p.name}" />
+          <div>
+            <strong>${p.name}</strong>
+            <span>${p.marca || ''} · ${p.categoria}</span>
+          </div>
+        </a>`
+        )
+        .join("")}
+      <a class="mobile-search-all" href="${href}">Ver todos los resultados para "${q}" →</a>
+    `;
+  };
+
+  modalInput?.addEventListener("input", renderMobileResults);
+
+  // Desktop click fuera
   document.addEventListener("click", (e) => {
-    if (!e.target.closest(".search-box")) {
+    if (
+      searchBox &&
+      !e.target.closest(".search-box") &&
+      searchBox.getAttribute("data-open") === "true"
+    ) {
       searchBox.setAttribute("data-open", "false");
       searchToggle.setAttribute("aria-expanded", "false");
     }
@@ -118,8 +255,13 @@ function initSearchBox() {
 
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
-      searchBox.setAttribute("data-open", "false");
-      searchToggle.setAttribute("aria-expanded", "false");
+      if (searchModal.getAttribute("data-open") === "true") {
+        closeMobileSearch();
+      }
+      if (searchBox && searchBox.getAttribute("data-open") === "true") {
+        searchBox.setAttribute("data-open", "false");
+        searchToggle.setAttribute("aria-expanded", "false");
+      }
     }
   });
 }

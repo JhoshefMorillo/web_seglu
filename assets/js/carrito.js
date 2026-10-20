@@ -12,7 +12,7 @@
 
 const CART_KEY = "seglu_cart_v1";
 const CART_TS_KEY = CART_KEY + "_ts";
-const CART_TTL_MS = 6 * 60 * 60 * 1000;
+const CART_TTL_MS = 2 * 60 * 60 * 1000; // 5 horas de expiración automática
 const ESCAPE_HTML = (s) =>
   String(s || "").replace(/[&<>"']/g, (c) =>
     ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]),
@@ -109,8 +109,10 @@ const SEGLU_CART = (() => {
   const clear = () => {
     items = [];
     sincronizar();
+    localStorage.removeItem(CART_KEY);
     localStorage.removeItem(CART_TS_KEY);
     save();
+    emitir();
   };
 
   /* Selectores ---------------------------------------------------- */
@@ -125,8 +127,7 @@ const SEGLU_CART = (() => {
 
     const lineas = items.map(
       (i, idx) =>
-        `${idx + 1}. ${i.name} (${i.marca})${
-          i.talla ? " — Talla " + i.talla : ""
+        `${idx + 1}. ${i.name} (${i.marca})${i.talla ? " — Talla " + i.talla : ""
         } — x${i.qty}`,
     );
 
@@ -183,6 +184,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!drawer || !bodyEl) return;
 
+  // Botón "Borrar todo" en la cabecera del drawer
+  const headEl = drawer.querySelector(".cart-drawer__head");
+  let clearBtn = drawer.querySelector("[data-cart-clear]");
+  if (!clearBtn && headEl) {
+    clearBtn = document.createElement("button");
+    clearBtn.type = "button";
+    clearBtn.className = "cart-drawer__clear";
+    clearBtn.setAttribute("data-cart-clear", "");
+    clearBtn.setAttribute("aria-label", "Borrar todo el carrito");
+    clearBtn.setAttribute("title", "Borrar todo el carrito");
+    clearBtn.innerHTML = `
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="3 6 5 6 21 6"></polyline>
+        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+      </svg>
+      <span>Borrar todo</span>
+    `;
+    const closeBtn = headEl.querySelector("[data-cart-close]");
+    if (closeBtn) headEl.insertBefore(clearBtn, closeBtn);
+    else headEl.appendChild(clearBtn);
+
+    clearBtn.addEventListener("click", () => {
+      if (SEGLU_CART.items.length === 0) return;
+      mostrarConfirmarVaciar(() => {
+        SEGLU_CART.clear();
+      });
+    });
+  }
+
   const abrir = () => {
     drawer.setAttribute("data-open", "true");
     document.body.style.overflow = "hidden";
@@ -204,18 +234,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const itemHtml = (item) => `
       <div class="cart-item" data-key="${clave(item.id, item.talla)}">
         <img class="cart-item__img" src="${imagenDe(item)}" alt="${ESCAPE_HTML(
-          item.name,
-        )}" />
+    item.name,
+  )}" />
         <div class="cart-item__info">
           <p class="cart-item__name">${ESCAPE_HTML(item.name)}</p>
-          <span class="cart-item__meta">${ESCAPE_HTML(item.marca)}${
-            item.talla ? " · Talla " + ESCAPE_HTML(item.talla) : ""
-          }</span>
+          <span class="cart-item__meta">${ESCAPE_HTML(item.marca)}${item.talla ? " · Talla " + ESCAPE_HTML(item.talla) : ""
+    }</span>
           <div class="cart-item__row">
-            <div class="cart-item__qty">
-              <button type="button" data-cart-minus aria-label="Quitar uno">−</button>
-              <span>${item.qty}</span>
-              <button type="button" data-cart-plus aria-label="Agregar uno">+</button>
+            <div class="cart-item__qty-wrapper">
+              <span class="cart-item__qty-label">Cantidad:</span>
+              <div class="cart-item__qty">
+                <button type="button" data-cart-minus aria-label="Quitar uno">−</button>
+                <span>${item.qty}</span>
+                <button type="button" data-cart-plus aria-label="Agregar uno">+</button>
+              </div>
             </div>
           </div>
         </div>
@@ -251,6 +283,9 @@ document.addEventListener("DOMContentLoaded", () => {
       badge.textContent = count;
     }
     if (countHead) countHead.textContent = count;
+    if (clearBtn) {
+      clearBtn.style.display = lista.length === 0 ? "none" : "inline-flex";
+    }
 
     if (lista.length === 0) {
       setBody(`
@@ -263,8 +298,12 @@ document.addEventListener("DOMContentLoaded", () => {
           <p class="cart-empty__text">Tu carrito está vacío</p>
           <a class="cart-empty__link" href="productos.html">Ver productos</a>
         </div>`);
-      if (waLink) waLink.classList.add("is-disabled");
-      if (viewCartLink) viewCartLink.classList.add("is-disabled");
+      if (waLink) {
+        const waNum = window.WHATSAPP_NUMBER || "51904881704";
+        waLink.href = `https://wa.me/${waNum}?text=${encodeURIComponent("Hola, SEGLU. Vengo de tu página web y me gustaría solicitar una cotización. ¡Muchas gracias!")}`;
+        waLink.classList.remove("is-disabled");
+      }
+      if (viewCartLink) viewCartLink.classList.remove("is-disabled");
       return;
     }
 
@@ -341,6 +380,45 @@ function mostrarConfirmarEliminar(nombre, onConfirm) {
       <div class="confirm-modal__actions">
         <button type="button" class="confirm-modal__btn confirm-modal__btn--cancel">Cancelar</button>
         <button type="button" class="confirm-modal__btn confirm-modal__btn--confirm">Eliminar</button>
+      </div>
+    </div>
+  `;
+
+  const cerrarModal = () => {
+    overlay.classList.add("is-closing");
+    setTimeout(() => overlay.remove(), 200);
+  };
+
+  overlay.querySelector(".confirm-modal__btn--cancel").addEventListener("click", cerrarModal);
+  overlay.querySelector(".confirm-modal__backdrop").addEventListener("click", cerrarModal);
+  overlay.querySelector(".confirm-modal__btn--confirm").addEventListener("click", () => {
+    onConfirm();
+    cerrarModal();
+  });
+
+  document.body.appendChild(overlay);
+}
+
+function mostrarConfirmarVaciar(onConfirm) {
+  if (document.querySelector(".confirm-modal")) return;
+
+  const overlay = document.createElement("div");
+  overlay.className = "confirm-modal";
+  overlay.innerHTML = `
+    <div class="confirm-modal__backdrop"></div>
+    <div class="confirm-modal__box">
+      <div style="width:50px;height:50px;border-radius:50%;background:rgba(255,0,0,0.1);color:#ff0000;display:grid;place-items:center;margin:0 auto 16px;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="3 6 5 6 21 6"></polyline>
+          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+          <line x1="10" y1="11" x2="10" y2="17"></line>
+          <line x1="14" y1="11" x2="14" y2="17"></line>
+        </svg>
+      </div>
+      <p class="confirm-modal__text">¿Estás seguro de que deseas <strong>vaciar todo el carrito</strong>?</p>
+      <div class="confirm-modal__actions">
+        <button type="button" class="confirm-modal__btn confirm-modal__btn--cancel">Cancelar</button>
+        <button type="button" class="confirm-modal__btn confirm-modal__btn--confirm">Sí, vaciar todo</button>
       </div>
     </div>
   `;

@@ -1,0 +1,6 @@
+# Robots.txt para SEGLU (seglu.com)
+User-agent: *
+Allow: /
+
+# Sitemap oficial
+Sitemap: https://seglu.com/sitemap.xml

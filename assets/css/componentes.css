@@ -93,41 +93,37 @@
 
 /* --- Tarjeta de producto --- */
 .product-card {
-  background: var(--gray-800);
+  background: transparent;
   border-radius: var(--radius-md);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--gray-800);
-  transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease,
-    border-color 0.25s ease;
+  border: none;
 }
 
 .product-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.18);
+  transform: none;
+  box-shadow: none;
 }
 
 .product-card__media {
   position: relative;
-  background: var(--color-white);
+  background: transparent;
   aspect-ratio: 1 / 1;
   display: grid;
   place-items: center;
   padding: 24px;
-  border-bottom: 1px solid var(--gray-300);
+  border-bottom: none;
 }
 
 .product-card__media img {
   max-height: 100%;
   object-fit: contain;
-  transition: transform 0.3s ease;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .product-card:hover .product-card__media img {
-  transform: scale(1.04);
+  transform: translateY(-6px) scale(1.06);
 }
 
 .product-card__brand {
