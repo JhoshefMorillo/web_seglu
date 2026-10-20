@@ -27,12 +27,12 @@
 /* Breadcrumb */
 .lr-breadcrumb {
   font-family: var(--font-body);
-  font-size: 0.72rem;
+  font-size: 0.74rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: #1e293b;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .lr-breadcrumb a {
@@ -47,7 +47,7 @@
 
 /* Barra roja superior */
 .lr-red-topbar {
-  width: 52px;
+  width: 54px;
   height: 6px;
   background-color: #e30613;
   margin-bottom: 10px;
@@ -56,37 +56,35 @@
 
 /* Cabecera del Libro */
 .lr-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 24px;
-  margin-bottom: 34px;
-  flex-wrap: wrap;
-}
-
-.lr-header__info {
-  flex: 1;
-  min-width: 280px;
+  margin-bottom: 24px;
 }
 
 .lr-title {
   font-family: var(--font-display);
-  font-size: clamp(2.3rem, 5vw, 3.4rem);
-  font-weight: 800;
+  font-size: clamp(2.4rem, 6vw, 3.6rem);
+  font-weight: 900;
   color: #000000;
-  line-height: 1.05;
+  line-height: 1.02;
   margin: 0 0 10px 0;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
   text-transform: uppercase;
 }
 
 .lr-subtitle {
   font-family: var(--font-body);
-  font-size: 0.92rem;
+  font-size: 0.95rem;
   color: #475569;
   line-height: 1.45;
-  margin: 0;
-  max-width: 480px;
+  margin: 0 0 16px 0;
+  max-width: 620px;
+}
+
+/* Fila de la Tarjeta Empresa/Fecha (posicionada a la derecha debajo del título) */
+.lr-header__card-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+  margin-bottom: 28px;
 }
 
 /* Tarjeta Razón Social / RUC / Fecha / Hora */
@@ -96,10 +94,10 @@
   background: #ffffff;
   border: 1px solid #cbd5e1;
   border-radius: 18px;
-  padding: 14px 24px;
+  padding: 14px 26px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
-  gap: 22px;
-  min-width: 290px;
+  gap: 26px;
+  min-width: 320px;
 }
 
 .lr-company-card__col {
@@ -124,7 +122,7 @@
 
 .lr-card-value {
   font-family: var(--font-body);
-  font-size: 0.85rem;
+  font-size: 0.88rem;
   color: #64748b;
   margin-bottom: 8px;
   font-weight: 500;
@@ -132,6 +130,13 @@
 
 .lr-card-value:last-child {
   margin-bottom: 0;
+}
+
+/* Reloj en vivo */
+.lr-clock-live {
+  color: #0343b0 !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.02em;
 }
 
 /* Secciones del Formulario */
@@ -201,6 +206,11 @@
   margin-bottom: 8px;
 }
 
+.lr-label .req {
+  color: #dc2626;
+  margin-left: 2px;
+}
+
 .lr-input,
 .lr-select,
 .lr-textarea {
@@ -213,7 +223,7 @@
   font-size: 0.9rem;
   color: #1e293b;
   outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
 .lr-input {
@@ -242,6 +252,32 @@
 .lr-textarea:focus {
   border-color: #e30613;
   box-shadow: 0 0 0 3px rgba(227, 6, 19, 0.12);
+}
+
+/* Estados de Error y Validación con Texto */
+.lr-input.is-invalid,
+.lr-select.is-invalid,
+.lr-textarea.is-invalid,
+.lr-upload-box.is-invalid {
+  border-color: #dc2626 !important;
+  background-color: #fef2f2 !important;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15) !important;
+}
+
+.lr-error-msg {
+  display: none;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  color: #dc2626;
+  font-weight: 600;
+  margin-top: 6px;
+  line-height: 1.3;
+}
+
+.lr-error-msg.is-visible {
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .lr-counter {
@@ -331,6 +367,90 @@
   grid-template-columns: 1fr 1.15fr;
   gap: 28px;
   align-items: flex-start;
+}
+
+/* Previsualización de Archivos Arribita de la caja */
+.lr-previews {
+  display: none;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.lr-previews.has-files {
+  display: flex;
+}
+
+.lr-preview-item {
+  position: relative;
+  width: 74px;
+  height: 74px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lr-preview-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lr-preview-remove {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 20px;
+  height: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  color: #ffffff;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1;
+  transition: background 0.15s ease;
+}
+
+.lr-preview-remove:hover {
+  background: #dc2626;
+}
+
+.lr-preview-pdf-card {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  gap: 10px;
+}
+
+.lr-preview-pdf-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow: hidden;
+}
+
+.lr-preview-pdf-name {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #991b1b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 210px;
 }
 
 .lr-upload-box {
@@ -471,9 +591,9 @@
 .lr-modal__box {
   background: #ffffff;
   border-radius: 18px;
-  max-width: 520px;
+  max-width: 540px;
   width: 100%;
-  padding: 32px 28px;
+  padding: 34px 28px;
   text-align: center;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
   transform: scale(0.94);
@@ -498,7 +618,7 @@
 
 .lr-modal__title {
   font-family: var(--font-display);
-  font-size: 1.8rem;
+  font-size: 1.85rem;
   font-weight: 800;
   color: #0f172a;
   margin: 0 0 8px 0;
@@ -526,26 +646,66 @@
   margin: 0 0 24px 0;
 }
 
-.lr-modal__btn {
+.lr-modal__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.lr-modal__btn-primary {
   background: #ff0000;
   color: #ffffff;
   font-weight: 700;
-  padding: 12px 28px;
+  padding: 12px 24px;
   border-radius: 10px;
   border: none;
   cursor: pointer;
   font-size: 0.92rem;
   transition: filter 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
-.lr-modal__btn:hover {
+.lr-modal__btn-primary:hover {
   filter: brightness(1.1);
+}
+
+.lr-modal__btn-secondary {
+  background: #25d366;
+  color: #ffffff;
+  font-weight: 700;
+  padding: 12px 24px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.92rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: filter 0.15s ease;
+  text-decoration: none;
+}
+
+.lr-modal__btn-secondary:hover {
+  filter: brightness(1.08);
+}
+
+.lr-modal__btn-close {
+  background: transparent;
+  color: #64748b;
+  border: none;
+  font-size: 0.86rem;
+  cursor: pointer;
+  padding: 6px 12px;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .lr-header {
-    flex-direction: column;
+  .lr-header__card-row {
+    justify-content: stretch;
   }
   .lr-company-card {
     width: 100%;

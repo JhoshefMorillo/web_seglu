@@ -227,32 +227,35 @@
 
         <!-- Encabezado con Título y Tarjeta de Empresa/Fecha -->
         <div class="lr-header">
-          <div class="lr-header__info">
+          <div class="lr-header__top">
             <h1 class="lr-title">LIBRO DE RECLAMACIONES</h1>
             <p class="lr-subtitle">
               Tu opinión nos importa. Completa el siguiente formulario para registrar tu reclamo, queja o solicitud.
             </p>
           </div>
 
-          <div class="lr-company-card">
-            <div class="lr-company-card__col">
-              <span class="lr-card-label">RAZON SOCIAL:</span>
-              <span class="lr-card-value">SEGLU SAC</span>
-              <span class="lr-card-label">RUC:</span>
-              <span class="lr-card-value">20609886073</span>
-            </div>
-            <div class="lr-company-card__divider"></div>
-            <div class="lr-company-card__col">
-              <span class="lr-card-label">FECHA</span>
-              <span class="lr-card-value" id="lrFecha">1/01/2026</span>
-              <span class="lr-card-label">Hora</span>
-              <span class="lr-card-value" id="lrHora">11:30 AM</span>
+          <!-- Tarjeta posicionada abajo a la derecha del título tal como la foto -->
+          <div class="lr-header__card-row">
+            <div class="lr-company-card">
+              <div class="lr-company-card__col">
+                <span class="lr-card-label">RAZON SOCIAL:</span>
+                <span class="lr-card-value">SEGLU SAC</span>
+                <span class="lr-card-label">RUC:</span>
+                <span class="lr-card-value">20609886073</span>
+              </div>
+              <div class="lr-company-card__divider"></div>
+              <div class="lr-company-card__col">
+                <span class="lr-card-label">FECHA</span>
+                <span class="lr-card-value" id="lrFecha">--/--/----</span>
+                <span class="lr-card-label">Hora</span>
+                <span class="lr-card-value lr-clock-live" id="lrHora">--:--:-- --</span>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- Formulario Principal -->
-        <form id="reclamacionesForm">
+        <form id="reclamacionesForm" novalidate>
           <!-- SECCIÓN 1: Identificación del Consumidor -->
           <div class="lr-section">
             <div class="lr-section-title">
@@ -261,7 +264,7 @@
             </div>
             <div class="lr-grid-2">
               <div class="lr-field">
-                <label class="lr-label" for="lrTipoDoc">TIPO DE DOCUMENTO</label>
+                <label class="lr-label" for="lrTipoDoc">TIPO DE DOCUMENTO <span class="req">*</span></label>
                 <select id="lrTipoDoc" class="lr-select" required>
                   <option value="" disabled selected>Selecciona tipo</option>
                   <option value="DNI">DNI</option>
@@ -269,26 +272,32 @@
                   <option value="Pasaporte">Pasaporte</option>
                   <option value="RUC">RUC</option>
                 </select>
+                <span class="lr-error-msg" id="err_lrTipoDoc"></span>
               </div>
               <div class="lr-field">
-                <label class="lr-label" for="lrNumDoc">NUMERO DE DOCUMENTO</label>
+                <label class="lr-label" for="lrNumDoc">NUMERO DE DOCUMENTO <span class="req">*</span></label>
                 <input type="text" id="lrNumDoc" class="lr-input" required placeholder="Ingresa número de documento" autocomplete="off">
+                <span class="lr-error-msg" id="err_lrNumDoc"></span>
               </div>
               <div class="lr-field lr-col-full">
-                <label class="lr-label" for="lrNombre">NOMBRES Y APELLIDOS/RAZON SOCIAL</label>
+                <label class="lr-label" for="lrNombre">NOMBRES Y APELLIDOS/RAZON SOCIAL <span class="req">*</span></label>
                 <input type="text" id="lrNombre" class="lr-input" required placeholder="Ingresa nombres y apellidos o razón social" autocomplete="name">
+                <span class="lr-error-msg" id="err_lrNombre"></span>
               </div>
               <div class="lr-field lr-col-full">
-                <label class="lr-label" for="lrDomicilio">DOMICILIO COMPLETO</label>
+                <label class="lr-label" for="lrDomicilio">DOMICILIO COMPLETO <span class="req">*</span></label>
                 <input type="text" id="lrDomicilio" class="lr-input" required placeholder="Ingresa dirección completa (Av., Jr., Calle, Distrito y Provincia)" autocomplete="street-address">
+                <span class="lr-error-msg" id="err_lrDomicilio"></span>
               </div>
               <div class="lr-field">
-                <label class="lr-label" for="lrTelefono">TELEFONO CELULAR</label>
+                <label class="lr-label" for="lrTelefono">TELEFONO CELULAR <span class="req">*</span></label>
                 <input type="tel" id="lrTelefono" class="lr-input" required placeholder="Ej: 904 881 704" autocomplete="tel">
+                <span class="lr-error-msg" id="err_lrTelefono"></span>
               </div>
               <div class="lr-field">
-                <label class="lr-label" for="lrCorreo">CORREO ELECTRONICO</label>
+                <label class="lr-label" for="lrCorreo">CORREO ELECTRONICO <span class="req">*</span></label>
                 <input type="email" id="lrCorreo" class="lr-input" required placeholder="ejemplo@correo.com" autocomplete="email">
+                <span class="lr-error-msg" id="err_lrCorreo"></span>
               </div>
             </div>
           </div>
@@ -326,9 +335,10 @@
                   <input type="text" id="lrMonto" class="lr-input" placeholder="0.00">
                 </div>
                 <div class="lr-field">
-                  <label class="lr-label" for="lrDescBien">DESCRIPCION DEL PRODUCTO/SERVICIO</label>
+                  <label class="lr-label" for="lrDescBien">DESCRIPCION DEL PRODUCTO/SERVICIO <span class="req">*</span></label>
                   <textarea id="lrDescBien" class="lr-textarea" maxlength="500" placeholder="Detalla las características del producto o servicio..." required></textarea>
                   <div class="lr-counter" id="counterDescBien">0/500</div>
+                  <span class="lr-error-msg" id="err_lrDescBien"></span>
                 </div>
               </div>
             </div>
@@ -361,15 +371,17 @@
             </div>
 
             <div class="lr-field">
-              <label class="lr-label" for="lrDetalleReclamo">DETALLE DEL RECLAMO O QUEJA</label>
+              <label class="lr-label" for="lrDetalleReclamo">DETALLE DEL RECLAMO O QUEJA <span class="req">*</span></label>
               <textarea id="lrDetalleReclamo" class="lr-textarea" maxlength="1000" style="min-height: 105px;" placeholder="Describe de manera clara y detallada lo sucedido..." required></textarea>
               <div class="lr-counter" id="counterDetalle">0/1000</div>
+              <span class="lr-error-msg" id="err_lrDetalleReclamo"></span>
             </div>
 
             <div class="lr-field">
-              <label class="lr-label" for="lrPedidoCliente">PEDIDO O SOLICITUD DEL CLIENTE</label>
+              <label class="lr-label" for="lrPedidoCliente">PEDIDO O SOLICITUD DEL CLIENTE <span class="req">*</span></label>
               <textarea id="lrPedidoCliente" class="lr-textarea" maxlength="1000" style="min-height: 105px;" placeholder="Indica la solución, respuesta o solicitud que esperas recibir..." required></textarea>
               <div class="lr-counter" id="counterPedido">0/1000</div>
+              <span class="lr-error-msg" id="err_lrPedidoCliente"></span>
             </div>
           </div>
 
@@ -382,7 +394,10 @@
             <div class="lr-decl-grid">
               <div>
                 <label class="lr-label">Archivo adjunto (Opcional)</label>
-                <div class="lr-upload-box">
+                <!-- Previsualización arribita de la caja -->
+                <div class="lr-previews" id="lrPreviews"></div>
+
+                <div class="lr-upload-box" id="lrUploadBox">
                   <svg class="lr-upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                     <polyline points="17 8 12 3 7 8"></polyline>
@@ -391,20 +406,24 @@
                   <span class="lr-upload-text" id="lrFileText">
                     <strong>Seleccionar archivo</strong> o arrastra tus archivos aquí
                   </span>
-                  <input type="file" id="lrArchivo" accept=".png,.jpg,.jpeg,.pdf">
+                  <input type="file" id="lrArchivo" accept=".png,.jpg,.jpeg,.pdf" multiple>
                 </div>
-                <div class="lr-upload-helper">formatos permitidos: PNG, JPG, PDF</div>
+                <div class="lr-upload-helper">formatos permitidos: PNG, JPG, PDF (máx. 3 fotos o 1 solo PDF)</div>
+                <span class="lr-error-msg" id="err_lrArchivo"></span>
               </div>
 
               <div class="lr-checkboxes">
-                <label class="lr-check-label">
-                  <input type="checkbox" required>
-                  <span>Declaro bajo juramento que los datos proporcionados en este formulario son verdaderos y corresponden a los hechos descritos.</span>
+                <label class="lr-check-label" for="lrCheck1">
+                  <input type="checkbox" id="lrCheck1" required>
+                  <span>Declaro bajo juramento que los datos proporcionados en este formulario son verdaderos y corresponden a los hechos descritos. <span class="req">*</span></span>
                 </label>
-                <label class="lr-check-label">
-                  <input type="checkbox" required>
-                  <span>Acepto los <a href="terminos-condiciones.html" target="_blank" style="color: #0343b0; text-decoration: underline;">Términos y Condiciones</a> y la <a href="politica-privacidad.html" target="_blank" style="color: #0343b0; text-decoration: underline;">Política de Tratamiento de Datos Personales</a> para la gestión de este requerimiento.</span>
+                <span class="lr-error-msg" id="err_lrCheck1"></span>
+
+                <label class="lr-check-label" for="lrCheck2">
+                  <input type="checkbox" id="lrCheck2" required>
+                  <span>Acepto los <a href="terminos-condiciones.html" target="_blank" style="color: #0343b0; text-decoration: underline;">Términos y Condiciones</a> y la <a href="politica-privacidad.html" target="_blank" style="color: #0343b0; text-decoration: underline;">Política de Tratamiento de Datos Personales</a> para la gestión de este requerimiento. <span class="req">*</span></span>
                 </label>
+                <span class="lr-error-msg" id="err_lrCheck2"></span>
               </div>
             </div>
           </div>
@@ -428,9 +447,25 @@
         <h3 class="lr-modal__title" id="modalTitle">¡Reclamación Registrada!</h3>
         <div class="lr-modal__code" id="lrModalCode">HOJA DE RECLAMACIÓN N° REC-2026-00000</div>
         <p class="lr-modal__text">
-          Hemos recibido tu solicitud de conformidad con el Código de Protección y Defensa del Consumidor (Ley N° 29571). Se ha enviado una constancia de registro y nos comunicaremos contigo en un plazo no mayor a quince (15) días hábiles improrrogables.
+          Hemos recibido tu requerimiento conforme al Código de Protección y Defensa del Consumidor (Ley N° 29571). Se ha registrado la información y nos comunicaremos contigo al correo y teléfono celular indicados en un plazo no mayor a quince (15) días hábiles improrrogables.
         </p>
-        <button type="button" class="lr-modal__btn" id="lrModalClose">Entendido, cerrar</button>
+        <div class="lr-modal__actions">
+          <button type="button" class="lr-modal__btn-primary" id="lrModalPrint">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 6 2 18 2 18 9"></polyline>
+              <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+              <rect x="6" y="14" width="12" height="8"></rect>
+            </svg>
+            Descargar / Imprimir Constancia (PDF)
+          </button>
+          <a href="#" target="_blank" rel="noopener" class="lr-modal__btn-secondary" id="lrModalWa">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z" />
+            </svg>
+            Enviar confirmación a WhatsApp (+51 904 881 704)
+          </a>
+          <button type="button" class="lr-modal__btn-close" id="lrModalClose">Entendido, cerrar</button>
+        </div>
       </div>
     </div>
 
