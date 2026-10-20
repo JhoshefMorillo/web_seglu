@@ -11,11 +11,64 @@
   display: none;
 }
 
-.lr-page {
-  padding-top: 105px;
+/* ---------- BANNER SUPERIOR (Idéntico a Contactos y Productos) ---------- */
+.page-banner {
+  background: var(--color-white);
+  color: var(--color-black);
+  padding: 42px 0 32px;
+}
+
+.page-banner__bar {
+  display: block;
+  width: 100px;
+  height: 12px;
+  background: var(--color-accent);
+  margin-bottom: 1px;
+}
+
+.page-banner .container {
+  max-width: none;
+  margin-inline: 0;
+  padding-inline: 90px;
+}
+
+.page-banner__title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(4rem, 9vw, 7rem);
+  line-height: 1.02;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin: 0;
+}
+
+.page-banner__sub {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  color: #475569;
+  line-height: 1.5;
+  margin: 10px 0 0 0;
+  max-width: 680px;
+}
+
+@media (max-width: 600px) {
+  .page-banner {
+    padding: 64px 0 32px;
+  }
+  .page-banner .container {
+    padding-inline: 20px;
+  }
+  .page-banner__title {
+    font-size: clamp(2.6rem, 11vw, 4rem);
+  }
+}
+
+/* ---------- CONTENIDO DEL FORMULARIO ---------- */
+.lr-content-section {
+  padding-top: 10px;
   padding-bottom: 70px;
   background-color: #fafbfc;
-  min-height: 85vh;
+  min-height: 75vh;
 }
 
 .lr-container {
@@ -24,66 +77,11 @@
   padding: 0 20px;
 }
 
-/* Breadcrumb */
-.lr-breadcrumb {
-  font-family: var(--font-body);
-  font-size: 0.74rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: #1e293b;
-  margin-bottom: 8px;
-}
-
-.lr-breadcrumb a {
-  color: inherit;
-  text-decoration: none;
-  transition: color 0.15s ease;
-}
-
-.lr-breadcrumb a:hover {
-  color: #e30613;
-}
-
-/* Barra roja superior */
-.lr-red-topbar {
-  width: 54px;
-  height: 6px;
-  background-color: #e30613;
-  margin-bottom: 10px;
-  border-radius: 1px;
-}
-
-/* Cabecera del Libro */
-.lr-header {
-  margin-bottom: 24px;
-}
-
-.lr-title {
-  font-family: var(--font-display);
-  font-size: clamp(2.4rem, 6vw, 3.6rem);
-  font-weight: 900;
-  color: #000000;
-  line-height: 1.02;
-  margin: 0 0 10px 0;
-  letter-spacing: 0.01em;
-  text-transform: uppercase;
-}
-
-.lr-subtitle {
-  font-family: var(--font-body);
-  font-size: 0.95rem;
-  color: #475569;
-  line-height: 1.45;
-  margin: 0 0 16px 0;
-  max-width: 620px;
-}
-
-/* Fila de la Tarjeta Empresa/Fecha (posicionada a la derecha debajo del título) */
+/* Fila de la Tarjeta Empresa/Fecha (posicionada a la derecha) */
 .lr-header__card-row {
   display: flex;
   justify-content: flex-end;
-  margin-top: 12px;
+  margin-top: 10px;
   margin-bottom: 28px;
 }
 
@@ -132,7 +130,6 @@
   margin-bottom: 0;
 }
 
-/* Reloj en vivo */
 .lr-clock-live {
   color: #0343b0 !important;
   font-weight: 700 !important;
@@ -591,7 +588,7 @@
 .lr-modal__box {
   background: #ffffff;
   border-radius: 18px;
-  max-width: 540px;
+  max-width: 520px;
   width: 100%;
   padding: 34px 28px;
   text-align: center;
@@ -649,57 +646,45 @@
 .lr-modal__actions {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
 .lr-modal__btn-primary {
   background: #ff0000;
   color: #ffffff;
   font-weight: 700;
-  padding: 12px 24px;
+  padding: 13px 24px;
   border-radius: 10px;
   border: none;
   cursor: pointer;
-  font-size: 0.92rem;
-  transition: filter 0.15s ease;
+  font-size: 0.95rem;
+  transition: filter 0.15s ease, transform 0.15s ease;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
+  box-shadow: 0 4px 14px rgba(255, 0, 0, 0.3);
 }
 
 .lr-modal__btn-primary:hover {
   filter: brightness(1.1);
-}
-
-.lr-modal__btn-secondary {
-  background: #25d366;
-  color: #ffffff;
-  font-weight: 700;
-  padding: 12px 24px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  font-size: 0.92rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  transition: filter 0.15s ease;
-  text-decoration: none;
-}
-
-.lr-modal__btn-secondary:hover {
-  filter: brightness(1.08);
+  transform: translateY(-1px);
 }
 
 .lr-modal__btn-close {
-  background: transparent;
-  color: #64748b;
-  border: none;
-  font-size: 0.86rem;
+  background: #f1f5f9;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+  font-weight: 600;
+  font-size: 0.9rem;
   cursor: pointer;
-  padding: 6px 12px;
+  padding: 11px 20px;
+  border-radius: 10px;
+  transition: background 0.15s ease;
+}
+
+.lr-modal__btn-close:hover {
+  background: #e2e8f0;
 }
 
 /* Responsive */

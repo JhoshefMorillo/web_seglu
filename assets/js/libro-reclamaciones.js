@@ -29,7 +29,50 @@ document.addEventListener("DOMContentLoaded", function () {
   updateClock();
   setInterval(updateClock, 1000);
 
-  // 2. Contadores de caracteres
+  // 2. Lógica dinámica: Tipo de Bien (Producto vs Servicio)
+  const radioBien = document.querySelectorAll('input[name="tipo_bien"]');
+  const labelMonto = document.getElementById("labelMonto");
+  const inputMonto = document.getElementById("lrMonto");
+  const inputComprobante = document.getElementById("lrComprobante");
+
+  function handleTipoBienChange() {
+    const selected = document.querySelector('input[name="tipo_bien"]:checked')?.value || "Producto";
+    if (selected === "Producto") {
+      if (labelMonto) {
+        labelMonto.innerHTML = 'MONTO A RECLAMAR (S/) <span class="req">*</span>';
+      }
+      if (inputMonto) {
+        inputMonto.placeholder = "0.00";
+        inputMonto.setAttribute("required", "required");
+      }
+      if (inputComprobante) {
+        inputComprobante.placeholder = "N° de Boleta o Factura";
+      }
+    } else {
+      // Servicio
+      if (labelMonto) {
+        labelMonto.innerHTML = 'MONTO A RECLAMAR (S/) <span style="font-size: 0.72rem; color: #64748b; font-weight: normal;">(Opcional en servicios)</span>';
+      }
+      if (inputMonto) {
+        inputMonto.placeholder = "0.00 (Opcional si no hubo cobro monetario)";
+        inputMonto.removeAttribute("required");
+        inputMonto.classList.remove("is-invalid");
+      }
+      if (inputComprobante) {
+        inputComprobante.placeholder = "N° de comprobante o ticket (Opcional)";
+      }
+      const errMonto = document.getElementById("err_lrMonto");
+      if (errMonto) {
+        errMonto.textContent = "";
+        errMonto.classList.remove("is-visible");
+      }
+    }
+  }
+
+  radioBien.forEach((r) => r.addEventListener("change", handleTipoBienChange));
+  handleTipoBienChange();
+
+  // 3. Contadores de caracteres
   const textareasWithCounter = [
     { id: "lrDescBien", counterId: "counterDescBien", max: 500 },
     { id: "lrDetalleReclamo", counterId: "counterDetalle", max: 1000 },
@@ -49,11 +92,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // 3. Manejo de archivos adjuntos (Máximo 3 fotos o 1 solo PDF) con previsualización arribita
+  // 4. Manejo de archivos adjuntos (Máximo 3 fotos o 1 solo PDF) con previsualización arribita
   const fileInput = document.getElementById("lrArchivo");
   const previewsContainer = document.getElementById("lrPreviews");
   const fileErrorMsg = document.getElementById("err_lrArchivo");
-  let selectedFiles = []; // Almacena archivos válidos seleccionados
+  let selectedFiles = [];
 
   function renderPreviews() {
     if (!previewsContainer) return;
@@ -107,7 +150,6 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
 
-    // Eventos para eliminar archivos individuales
     previewsContainer.querySelectorAll(".lr-preview-remove").forEach((btn) => {
       btn.addEventListener("click", function (e) {
         e.stopPropagation();
@@ -141,7 +183,6 @@ document.addEventListener("DOMContentLoaded", function () {
           return;
         }
 
-        // Regla: 1 solo PDF o hasta 3 fotos
         if (isPdf) {
           if (selectedFiles.length > 0) {
             showFileError("Si adjuntas un documento PDF, solo puedes subir 1 archivo PDF (sin fotos adicionales).");
@@ -163,7 +204,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       }
 
-      this.value = ""; // Limpiar input para permitir seleccionar de nuevo si se borra
+      this.value = "";
       renderPreviews();
     });
   }
@@ -175,13 +216,14 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // 4. Validación de Campos Obligatorios con mensajes de texto
+  // 5. Validación de Campos Obligatorios con mensajes de texto
   const form = document.getElementById("reclamacionesForm");
   const modal = document.getElementById("lrModal");
   const modalClose = document.getElementById("lrModalClose");
   const modalCode = document.getElementById("lrModalCode");
-  const modalWa = document.getElementById("lrModalWa");
   const modalPrint = document.getElementById("lrModalPrint");
+
+  let lastClaimData = null; // Guardará todos los datos para generar el reclamo completo en PDF/Impresión
 
   const requiredFields = [
     { id: "lrTipoDoc", errId: "err_lrTipoDoc", message: "Falta seleccionar el tipo de documento." },
@@ -195,7 +237,6 @@ document.addEventListener("DOMContentLoaded", function () {
     { id: "lrPedidoCliente", errId: "err_lrPedidoCliente", message: "Falta indicar la solución o requerimiento que solicitas." },
   ];
 
-  // Limpiar errores en tiempo real al escribir
   requiredFields.forEach(({ id, errId }) => {
     const el = document.getElementById(id);
     const errEl = document.getElementById(errId);
@@ -239,7 +280,7 @@ document.addEventListener("DOMContentLoaded", function () {
       let hasError = false;
       let firstInvalidEl = null;
 
-      // Validar cada campo requerido
+      // Validar campos requeridos
       requiredFields.forEach(({ id, errId, message, isEmail, isPhone }) => {
         const el = document.getElementById(id);
         const errEl = document.getElementById(errId);
@@ -272,7 +313,29 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       });
 
-      // Validar Casilla 1 (Declaración bajo juramento)
+      // Validar monto a reclamar si es Producto
+      const tipoBienVal = document.querySelector('input[name="tipo_bien"]:checked')?.value || "Producto";
+      const errMonto = document.getElementById("err_lrMonto");
+      if (tipoBienVal === "Producto") {
+        const montoVal = inputMonto ? inputMonto.value.trim() : "";
+        if (!montoVal) {
+          hasError = true;
+          if (inputMonto) inputMonto.classList.add("is-invalid");
+          if (errMonto) {
+            errMonto.textContent = "* Para productos, debes ingresar el monto a reclamar.";
+            errMonto.classList.add("is-visible");
+          }
+          if (!firstInvalidEl && inputMonto) firstInvalidEl = inputMonto;
+        } else {
+          if (inputMonto) inputMonto.classList.remove("is-invalid");
+          if (errMonto) {
+            errMonto.textContent = "";
+            errMonto.classList.remove("is-visible");
+          }
+        }
+      }
+
+      // Validar Casilla 1
       if (check1 && !check1.checked) {
         hasError = true;
         if (errCheck1) {
@@ -282,7 +345,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!firstInvalidEl) firstInvalidEl = check1;
       }
 
-      // Validar Casilla 2 (Aceptación de Términos y Política)
+      // Validar Casilla 2
       if (check2 && !check2.checked) {
         hasError = true;
         if (errCheck2) {
@@ -292,7 +355,6 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!firstInvalidEl) firstInvalidEl = check2;
       }
 
-      // Si hay errores, hacer scroll hacia el primer campo faltante
       if (hasError) {
         if (firstInvalidEl) {
           firstInvalidEl.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -301,12 +363,12 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
-      // Generar código único y guardar datos
+      // Generar código único y guardar
       const randomNum = Math.floor(10000 + Math.random() * 90000);
       const year = new Date().getFullYear();
       const claimCode = `REC-${year}-${randomNum}`;
 
-      const claimData = {
+      lastClaimData = {
         code: claimCode,
         fecha: fechaEl ? fechaEl.textContent : "",
         hora: horaEl ? horaEl.textContent : "",
@@ -316,9 +378,9 @@ document.addEventListener("DOMContentLoaded", function () {
         domicilio: document.getElementById("lrDomicilio").value.trim(),
         telefono: document.getElementById("lrTelefono").value.trim(),
         correo: document.getElementById("lrCorreo").value.trim(),
-        tipoBien: document.querySelector('input[name="tipo_bien"]:checked')?.value || "Producto",
-        comprobante: document.getElementById("lrComprobante")?.value.trim() || "-",
-        monto: document.getElementById("lrMonto")?.value.trim() || "-",
+        tipoBien: tipoBienVal,
+        comprobante: document.getElementById("lrComprobante")?.value.trim() || "No especificado",
+        monto: inputMonto?.value.trim() || (tipoBienVal === "Servicio" ? "0.00" : "-"),
         descBien: document.getElementById("lrDescBien").value.trim(),
         tipoRequerimiento: document.querySelector('input[name="tipo_requerimiento"]:checked')?.value || "Reclamo",
         detalleReclamo: document.getElementById("lrDetalleReclamo").value.trim(),
@@ -327,36 +389,26 @@ document.addEventListener("DOMContentLoaded", function () {
         timestamp: new Date().toISOString(),
       };
 
-      // Guardar en almacenamiento local para constancia del usuario
       try {
         const historico = JSON.parse(localStorage.getItem("seglu_reclamaciones_historial") || "[]");
-        historico.push(claimData);
+        historico.push(lastClaimData);
         localStorage.setItem("seglu_reclamaciones_historial", JSON.stringify(historico));
       } catch (err) {
         console.warn("No se pudo guardar en localStorage", err);
       }
 
-      // Mostrar Modal
       if (modalCode) {
         modalCode.textContent = `HOJA DE RECLAMACIÓN N° ${claimCode}`;
-      }
-
-      // Enlace para enviar aviso directo por WhatsApp de SEGLU
-      if (modalWa) {
-        const waMsg = encodeURIComponent(
-          `Hola SEGLU SAC. He registrado la Hoja de Reclamación Virtual *N° ${claimCode}* en su página web a nombre de *${claimData.nombre}* (DNI/Doc: ${claimData.numDoc}). Tipo: *${claimData.tipoRequerimiento}*. Solicito la confirmación de recepción. ¡Muchas gracias!`
-        );
-        modalWa.href = `https://wa.me/51904881704?text=${waMsg}`;
       }
 
       if (modal) {
         modal.classList.add("is-open");
       }
 
-      // Limpiar formulario y estado de archivos
       form.reset();
       selectedFiles = [];
       renderPreviews();
+      handleTipoBienChange();
 
       textareasWithCounter.forEach(({ counterId, max }) => {
         const counter = document.getElementById(counterId);
@@ -365,10 +417,24 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Descargar / Imprimir Hoja de Reclamación
+  // 6. Generación, Impresión y Descarga del RECLAMO EN SÍ (Documento oficial)
   if (modalPrint) {
     modalPrint.addEventListener("click", function () {
-      window.print();
+      if (!lastClaimData) {
+        try {
+          const historico = JSON.parse(localStorage.getItem("seglu_reclamaciones_historial") || "[]");
+          if (historico && historico.length > 0) {
+            lastClaimData = historico[historico.length - 1];
+          }
+        } catch (e) {
+          console.warn("Error leyendo historial", e);
+        }
+      }
+      if (!lastClaimData) {
+        alert("No se encontró información de la reclamación para imprimir o descargar.");
+        return;
+      }
+      imprimirHojaReclamacionOficial(lastClaimData);
     });
   }
 
@@ -384,3 +450,292 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
+
+/**
+ * Genera e imprime/descarga en PDF la Hoja de Reclamación completa con formato oficial
+ */
+function imprimirHojaReclamacionOficial(data) {
+  const printWindow = window.open("", "_blank", "width=850,height=950");
+  if (!printWindow) {
+    alert("Por favor habilita las ventanas emergentes (pop-ups) en tu navegador para ver y descargar tu reclamación.");
+    return;
+  }
+
+  const htmlContent = `
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Hoja de Reclamación - ${data.code} - SEGLU SAC</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 15mm;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    body {
+      color: #111;
+      background: #fff;
+      padding: 20px;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+    .header-box {
+      border: 2px solid #000;
+      padding: 12px 16px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header-left h1 {
+      font-size: 20px;
+      font-weight: 900;
+      color: #e30613;
+      margin-bottom: 2px;
+    }
+    .header-left p {
+      font-size: 11px;
+      color: #333;
+    }
+    .header-right {
+      text-align: right;
+      border-left: 2px solid #000;
+      padding-left: 16px;
+    }
+    .claim-code {
+      font-size: 16px;
+      font-weight: 800;
+      color: #0343b0;
+      margin-bottom: 4px;
+    }
+    .section-title {
+      background: #1e293b;
+      color: #fff;
+      font-size: 11px;
+      font-weight: bold;
+      padding: 5px 8px;
+      text-transform: uppercase;
+      margin-top: 10px;
+      margin-bottom: 6px;
+      border-left: 4px solid #e30613;
+    }
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 6px;
+    }
+    table.data-table th, table.data-table td {
+      border: 1px solid #cbd5e1;
+      padding: 6px 8px;
+      font-size: 11px;
+      text-align: left;
+    }
+    table.data-table th {
+      background: #f8fafc;
+      font-weight: bold;
+      width: 25%;
+    }
+    .content-box {
+      border: 1px solid #cbd5e1;
+      padding: 8px 10px;
+      font-size: 11px;
+      min-height: 50px;
+      background: #fafafa;
+      white-space: pre-wrap;
+      margin-bottom: 8px;
+    }
+    .legal-footer {
+      border-top: 1px dashed #94a3b8;
+      padding-top: 10px;
+      margin-top: 16px;
+      font-size: 10px;
+      color: #475569;
+      line-height: 1.4;
+    }
+    .signatures {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 40px;
+      padding: 0 40px;
+    }
+    .sig-line {
+      width: 220px;
+      border-top: 1px solid #000;
+      text-align: center;
+      padding-top: 4px;
+      font-size: 10px;
+      font-weight: bold;
+    }
+    .no-print-bar {
+      background: #f1f5f9;
+      padding: 10px 16px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .btn-action {
+      background: #e30613;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      font-weight: bold;
+      font-size: 12px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    @media print {
+      .no-print-bar {
+        display: none !important;
+      }
+      body {
+        padding: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="no-print-bar">
+    <span><strong>Hoja de Reclamación Oficial (Ley N° 29571)</strong> — Código: <strong>${data.code}</strong></span>
+    <div style="display: flex; gap: 8px;">
+      <button class="btn-action" onclick="window.print()">🖨️ Imprimir / Guardar en PDF</button>
+      <button class="btn-action" style="background: #0f172a;" onclick="descargarHtml()">💾 Descargar Archivo</button>
+    </div>
+  </div>
+
+  <div class="header-box">
+    <div class="header-left">
+      <h1>SEGLU S.A.C.</h1>
+      <p><strong>RUC:</strong> 20609886073</p>
+      <p><strong>Dirección:</strong> Av. Argentina N° 327, Psje. 1 Principal Tda. X1-11A, C.C. La Bellota - Lima</p>
+      <p><strong>Correo:</strong> seglu.smp@gmail.com | <strong>Teléfono:</strong> +51 904 881 704</p>
+    </div>
+    <div class="header-right">
+      <div class="claim-code">HOJA DE RECLAMACIÓN</div>
+      <div style="font-size: 14px; font-weight: bold; color: #000; margin-bottom: 4px;">${data.code}</div>
+      <p><strong>Fecha:</strong> ${data.fecha}</p>
+      <p><strong>Hora:</strong> ${data.hora}</p>
+    </div>
+  </div>
+
+  <div class="section-title">1. Identificación del Consumidor Reclamante</div>
+  <table class="data-table">
+    <tr>
+      <th>Nombres y Apellidos / Razón Social:</th>
+      <td colspan="3"><strong>${escapeHtml(data.nombre)}</strong></td>
+    </tr>
+    <tr>
+      <th>Tipo de Documento:</th>
+      <td>${escapeHtml(data.tipoDoc)}</td>
+      <th>N° de Documento:</th>
+      <td><strong>${escapeHtml(data.numDoc)}</strong></td>
+    </tr>
+    <tr>
+      <th>Domicilio Completo:</th>
+      <td colspan="3">${escapeHtml(data.domicilio)}</td>
+    </tr>
+    <tr>
+      <th>Teléfono Celular:</th>
+      <td>${escapeHtml(data.telefono)}</td>
+      <th>Correo Electrónico:</th>
+      <td>${escapeHtml(data.correo)}</td>
+    </tr>
+  </table>
+
+  <div class="section-title">2. Identificación del Bien Contratado</div>
+  <table class="data-table">
+    <tr>
+      <th>Tipo de Bien:</th>
+      <td><strong>${escapeHtml(data.tipoBien)}</strong></td>
+      <th>Monto Reclamado:</th>
+      <td><strong>S/ ${escapeHtml(data.monto)}</strong></td>
+    </tr>
+    <tr>
+      <th>N° de Comprobante / Boleta:</th>
+      <td colspan="3">${escapeHtml(data.comprobante)}</td>
+    </tr>
+  </table>
+  <div style="font-weight: bold; font-size: 11px; margin: 4px 0 2px 0;">Descripción del Producto o Servicio:</div>
+  <div class="content-box">${escapeHtml(data.descBien)}</div>
+
+  <div class="section-title">3. Detalle de la Reclamación del Pedido</div>
+  <table class="data-table">
+    <tr>
+      <th>Tipo de Requerimiento:</th>
+      <td colspan="3"><strong style="color: #e30613; font-size: 12px;">${escapeHtml(data.tipoRequerimiento.toUpperCase())}</strong> 
+      ${data.tipoRequerimiento === "Reclamo" ? "(Disconformidad relacionada a los productos o servicios)" : "(Disconformidad no relacionada a los productos/servicios; malestar o descontento respecto a la atención)"}</td>
+    </tr>
+  </table>
+  <div style="font-weight: bold; font-size: 11px; margin: 4px 0 2px 0;">Detalle del Reclamo o Queja:</div>
+  <div class="content-box">${escapeHtml(data.detalleReclamo)}</div>
+
+  <div style="font-weight: bold; font-size: 11px; margin: 4px 0 2px 0;">Pedido o Solicitud Concreta del Cliente:</div>
+  <div class="content-box">${escapeHtml(data.pedidoCliente)}</div>
+
+  ${data.archivos && data.archivos.length > 0 ? `<p style="font-size: 11px; margin-top: 4px;"><strong>Archivos adjuntos reportados:</strong> ${data.archivos.join(", ")}</p>` : ""}
+
+  <div class="section-title">4. Acciones y Respuesta Adoptadas por el Proveedor</div>
+  <div class="content-box" style="min-height: 40px; color: #64748b; font-style: italic;">
+    Espacio reservado para la constancia de atención y resolución formal por parte de SEGLU S.A.C.
+  </div>
+
+  <div class="signatures">
+    <div class="sig-line">
+      Firma del Consumidor<br>
+      <span style="font-size: 9px; font-weight: normal; color: #555;">(Conformidad Digital)</span>
+    </div>
+    <div class="sig-line">
+      SEGLU S.A.C.<br>
+      <span style="font-size: 9px; font-weight: normal; color: #555;">RUC 20609886073</span>
+    </div>
+  </div>
+
+  <div class="legal-footer">
+    <p>* La formulación del reclamo no impide acudir a otras vías de solución de controversias ni es requisito previo para interponer una denuncia ante el INDECOPI.</p>
+    <p>* Conforme a la Ley N° 29571 (Código de Protección y Defensa del Consumidor) y el D.S. 011-2011-PCM, el proveedor deberá dar respuesta al reclamo o queja en un plazo no mayor a quince (15) días hábiles improrrogables.</p>
+  </div>
+
+  <script>
+    function descargarHtml() {
+      var blob = new Blob([document.documentElement.outerHTML], { type: "text/html;charset=utf-8" });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      a.href = url;
+      a.download = "Hoja_Reclamacion_${data.code}.html";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+    window.onload = function() {
+      // Abre diálogo de impresión automáticamente
+      setTimeout(function() {
+        window.print();
+      }, 500);
+    };
+  <\/script>
+</body>
+</html>
+  `;
+
+  printWindow.document.open();
+  printWindow.document.write(htmlContent);
+  printWindow.document.close();
+}
+
+function escapeHtml(str) {
+  if (!str) return "";
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
