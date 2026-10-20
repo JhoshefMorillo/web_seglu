@@ -1491,3 +1491,40 @@ html {
     display: none !important;
   }
 }
+
+/* ============================================================
+   LOGO EN INICIO (SOLO EN PC)
+   Blanco sobre el hero al inicio, y al bajar (scroll)
+   regresa a sus colores corporativos oficiales (rojo y azul).
+   En móvil se mantiene siempre en sus colores oficiales.
+   ============================================================ */
+@media (min-width: 961px) {
+  .site-header:not(.is-scrolled) .site-header__logo .logo-s,
+  .site-header:not(.is-scrolled) .site-header__logo path.logo-s,
+  .site-header:not(.is-scrolled) .site-header__logo > path:first-of-type,
+  .site-header:not(.is-scrolled) .site-header__brand svg path.logo-s {
+    fill: #ffffff !important;
+  }
+
+  .site-header:not(.is-scrolled) .site-header__logo .logo-text,
+  .site-header:not(.is-scrolled) .site-header__logo .logo-text path,
+  .site-header:not(.is-scrolled) .site-header__logo g,
+  .site-header:not(.is-scrolled) .site-header__logo g path,
+  .site-header:not(.is-scrolled) .site-header__brand svg .logo-text path {
+    fill: #ffffff !important;
+  }
+
+  .site-header.is-scrolled .site-header__logo .logo-s,
+  .site-header.is-scrolled .site-header__logo path.logo-s,
+  .site-header.is-scrolled .site-header__logo > path:first-of-type {
+    fill: #FF0000 !important;
+  }
+
+  .site-header.is-scrolled .site-header__logo .logo-text,
+  .site-header.is-scrolled .site-header__logo .logo-text path,
+  .site-header.is-scrolled .site-header__logo g,
+  .site-header.is-scrolled .site-header__logo g path {
+    fill: #0343B0 !important;
+  }
+}
+

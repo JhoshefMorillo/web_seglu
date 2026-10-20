@@ -432,6 +432,69 @@
             <h2 class="section-title">NUESTRA UBICACIÓN</h2>
           </div>
 
+          <!-- Buscador de ruta ARRIBA del mapa: escribes desde dónde vienes y
+               abrimos Google Maps con la ruta ya lista hacia SEGLU. No
+               necesita API key. -->
+          <form class="contact-route" id="contact-route-form">
+            <div class="contact-route__icon" aria-hidden="true">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polygon points="3 11 22 2 13 21 11 13 3 11" />
+              </svg>
+            </div>
+            <div class="contact-route__body">
+              <p class="contact-route__title">
+                Abre directo en
+                <a
+                  href="https://www.google.com/maps/dir/?api=1&amp;destination=-12.04466,-77.04634"
+                  target="_blank"
+                  rel="noopener"
+                  >Google Maps</a
+                >
+                o
+                <a
+                  href="https://waze.com/ul?ll=-12.04466,-77.04634&amp;navigate=yes"
+                  target="_blank"
+                  rel="noopener"
+                  >Waze</a
+                >
+              </p>
+              <div class="contact-route__controls">
+                <input
+                  id="contact-route-origin"
+                  type="text"
+                  class="contact-route__input"
+                  placeholder="Escribe desde dónde vienes..."
+                  autocomplete="off"
+                  aria-label="Dirección de origen"
+                />
+                <button type="submit" class="contact-route__btn">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polygon points="3 11 22 2 13 21 11 13 3 11" />
+                  </svg>
+                  Cómo llegar
+                </button>
+              </div>
+            </div>
+          </form>
+
           <!-- Mapa de Google embebido (iframe). El botón "Volver a la
                dirección" recarga el iframe para reencuadrar la ubicación. -->
           <div class="contact-map__frame">
