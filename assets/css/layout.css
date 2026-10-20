@@ -592,11 +592,15 @@
   }
 
   /* Logo siempre en sus colores oficiales de marca sobre fondo blanco */
-  .site-header__logo .logo-s {
+  .site-header__logo .logo-s,
+  .site-header__logo > path:first-of-type,
+  .site-header__logo path.logo-s {
     fill: #FF0000 !important;
   }
   .site-header__logo .logo-text,
-  .site-header__logo path:not(.logo-s) {
+  .site-header__logo .logo-text path,
+  .site-header__logo g path,
+  .site-header__logo path:not(.logo-s):not(:first-of-type) {
     fill: #0343B0 !important;
   }
   .site-header__logo {

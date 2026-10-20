@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
   safeInit(initScrollReveals);
   safeInit(initScrollFloat);
   safeInit(initCustomScrollbar);
+  safeInit(initCookieConsent);
 });
 
 /**
@@ -1148,3 +1149,94 @@ function debounce(fn, wait) {
     timeout = setTimeout(() => fn(...args), wait);
   };
 }
+
+/**
+ * Aviso de Cookies y Almacenamiento Local (Google Analytics + Carrito)
+ * Aparece una sola vez si el usuario no ha aceptado o rechazado.
+ * Si se limpia localStorage o se eliminan las cookies, vuelve a aparecer.
+ */
+function initCookieConsent() {
+  const STORAGE_KEY = "seglu_cookie_consent";
+
+  function checkAndRender() {
+    const consent = localStorage.getItem(STORAGE_KEY);
+    // Si ya tomó una decisión, no mostrar
+    if (consent === "accepted" || consent === "declined") {
+      return;
+    }
+
+    if (document.getElementById("segluCookieBanner")) return;
+
+    const banner = document.createElement("aside");
+    banner.id = "segluCookieBanner";
+    banner.className = "cookie-banner";
+    banner.setAttribute("role", "dialog");
+    banner.setAttribute("aria-label", "Aviso de cookies y privacidad");
+
+    banner.innerHTML = `
+      <div class="cookie-banner__header">
+        <svg class="cookie-banner__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"></path>
+          <path d="M8.5 8.5v.01"></path>
+          <path d="M7 13v.01"></path>
+          <path d="M12 16v.01"></path>
+          <path d="M16 12v.01"></path>
+        </svg>
+        <h3 class="cookie-banner__title">Uso de Cookies y Privacidad</h3>
+      </div>
+      <p class="cookie-banner__text">
+        Utilizamos almacenamiento local para tu cotizador y tecnologías analíticas de <strong>Google Analytics</strong> para medir y mejorar tu experiencia de navegación de forma anónima. Conoce más en nuestra 
+        <a href="politica-privacidad.html" class="cookie-banner__link">Política de Privacidad</a>.
+      </p>
+      <div class="cookie-banner__actions">
+        <button type="button" class="cookie-banner__btn cookie-banner__btn--accept" id="btnAcceptCookies">Aceptar</button>
+        <button type="button" class="cookie-banner__btn cookie-banner__btn--decline" id="btnDeclineCookies">Rechazar</button>
+      </div>
+    `;
+
+    document.body.appendChild(banner);
+
+    // Entrada suave
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        banner.classList.add("is-visible");
+      }, 500);
+    });
+
+    const closeBanner = () => {
+      banner.classList.remove("is-visible");
+      setTimeout(() => {
+        if (banner.parentNode) banner.parentNode.removeChild(banner);
+      }, 400);
+    };
+
+    const btnAccept = banner.querySelector("#btnAcceptCookies");
+    const btnDecline = banner.querySelector("#btnDeclineCookies");
+
+    if (btnAccept) {
+      btnAccept.addEventListener("click", () => {
+        localStorage.setItem(STORAGE_KEY, "accepted");
+        closeBanner();
+        window.dispatchEvent(new CustomEvent("seglu_cookie_consent_change", { detail: { consent: "accepted" } }));
+      });
+    }
+
+    if (btnDecline) {
+      btnDecline.addEventListener("click", () => {
+        localStorage.setItem(STORAGE_KEY, "declined");
+        closeBanner();
+        window.dispatchEvent(new CustomEvent("seglu_cookie_consent_change", { detail: { consent: "declined" } }));
+      });
+    }
+  }
+
+  // Función pública para restablecer cookies y volver a mostrar el banner
+  window.resetSegluCookies = function() {
+    localStorage.removeItem(STORAGE_KEY);
+    checkAndRender();
+  };
+
+  // Ejecutar comprobación al cargar
+  checkAndRender();
+}
+
