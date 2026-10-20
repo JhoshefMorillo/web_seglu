@@ -903,6 +903,41 @@ html {
 
 /* Responsive */
 @media (max-width: 960px) {
+  .cat-showcase__head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .cat-showcase__head .cat-showcase__bar {
+    margin-inline: auto;
+  }
+
+  .cat-showcase .section-title {
+    text-align: center;
+  }
+
+  .sectors__head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 28px;
+  }
+
+  .sectors__head .cat-showcase__bar {
+    margin-inline: auto;
+  }
+
+  .sectors .section-title {
+    text-align: center;
+  }
+
+  .sectors__subtitle {
+    display: none !important;
+  }
+
   .sectors__grid {
     grid-template-columns: 1fr;
     gap: 20px;
@@ -968,7 +1003,7 @@ html {
 /* Rubros: íconos más chicos y mejor espaciado en mobile */
 @media (max-width: 600px) {
   .sectors__head {
-    margin-bottom: 48px;
+    margin-bottom: 28px;
   }
 
   .sectors__icon {
@@ -1387,21 +1422,72 @@ html {
 
 @media (max-width: 960px) {
   .review-card {
-    width: 320px;
-    padding: 26px 22px;
+    width: 280px;
+    padding: 18px 16px;
+    border-radius: 14px;
+  }
+
+  .review-card__head {
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .review-card__avatar {
+    width: 44px;
+    height: 44px;
+  }
+
+  .review-card__name {
+    font-size: 0.82rem;
+  }
+
+  .review-card__stars {
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+  }
+
+  .review-card__text {
+    font-size: 0.76rem;
+    line-height: 1.45;
+  }
+
+  /* CTA - Dejar mi reseña (solo título y botón centrado en mobile, como en la imagen de referencia) */
+  .review-cta {
+    padding-block: 44px 38px;
+    background: #ffffff;
   }
 
   .review-cta__card {
     flex-direction: column;
-    align-items: flex-start;
-    gap: 30px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 20px;
+    padding-inline: 16px;
+  }
+
+  .review-cta__left {
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    gap: 16px;
+  }
+
+  .review-cta__title {
+    font-size: clamp(1.8rem, 7.5vw, 2.35rem);
+    text-align: center;
+    margin: 0;
+  }
+
+  .review-cta__btn {
+    padding: 13px 30px;
+    font-size: 1.15rem;
+    border-radius: 10px;
+    box-shadow: none;
+    margin-inline: auto;
   }
 
   .review-cta__right {
-    width: 100%;
-  }
-
-  .review-cta__rating {
-    width: 100%;
+    display: none !important;
   }
 }

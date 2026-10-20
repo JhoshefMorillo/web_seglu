@@ -228,9 +228,8 @@
   align-items: center;
   gap: 12px;
   padding: 14px 18px;
-  border-bottom: 2px solid var(--brand-red, #fa0202);
+  border-bottom: 1px solid #eceff4;
   background: #ffffff;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
 }
 
 .mobile-search-modal__icon {
@@ -241,16 +240,31 @@
 .mobile-search-modal__form {
   flex: 1;
   display: flex;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 .mobile-search-modal__input {
   width: 100%;
-  border: none;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
   background: transparent;
   font-family: var(--font-body);
   font-size: 1.05rem;
   color: #1a1a1a;
-  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.mobile-search-modal__input:focus,
+.mobile-search-modal__input:focus-visible,
+.mobile-search-modal__input:active {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 .mobile-search-modal__input::placeholder {
@@ -268,6 +282,9 @@
   font-size: 1.4rem;
   font-weight: 700;
   border: none;
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-tap-highlight-color: transparent;
   cursor: pointer;
   flex-shrink: 0;
   transition: background 0.2s ease, transform 0.15s ease;
