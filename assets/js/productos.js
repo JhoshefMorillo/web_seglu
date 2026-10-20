@@ -257,6 +257,24 @@ function initCatalogPage() {
     gridEl.style.display = showEmpty ? "none" : "grid";
 
     renderPaginacion(items.length, paginas);
+
+    // Evitar que el usuario caiga al footer si la lista filtrada es más corta
+    const catalogoEl =
+      document.querySelector(".catalog-main") ||
+      document.getElementById("catalogo");
+    if (catalogoEl) {
+      const headerOffset = 80;
+      const targetY =
+        window.pageYOffset +
+        catalogoEl.getBoundingClientRect().top -
+        headerOffset;
+      if (window.scrollY > targetY + 120) {
+        window.scrollTo({
+          top: Math.max(0, targetY),
+          behavior: "smooth",
+        });
+      }
+    }
   };
 
   const irAPagina = (n) => {

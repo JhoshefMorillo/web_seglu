@@ -112,10 +112,11 @@
             <title>SEGLU SAC</title>
             <!-- S roja con barra superior -->
             <path
+              class="logo-s"
               fill="#FF0000"
               d="M150,70 L1480,70 C1540,70 1585,110 1585,160 L1483,160 C1483,138 1470,128 1445,128 L160,128 C135,128 120,140 120,155 C120,168 130,175 150,178 L290,195 C340,202 372,245 372,292 C372,345 335,385 280,390 L105,390 C55,390 15,355 15,305 L15,278 L135,278 L135,293 C135,305 147,311 160,311 L228,311 C242,311 249,303 249,291 C249,278 238,270 220,268 L90,250 C45,243 18,215 18,180 C18,120 80,70 150,70 Z"
             />
-            <g fill="#0343B0">
+            <g class="logo-text" fill="#0343B0">
               <!-- E -->
               <path d="M392,175 H608 V226 H462 V253 H593 V309 H462 V337 H605 V390 H392 Z"/>
               <!-- G -->
@@ -553,22 +554,39 @@
           panel.scrollTop = 0;
         }
 
-        function cerrar() {
+        function cerrar(scrollAProductos = true) {
           panel.classList.remove("is-open");
           toggle.setAttribute("aria-expanded", "false");
           toggle.classList.remove("is-active");
+
+          if (scrollAProductos) {
+            const catalogoEl =
+              document.querySelector(".catalog-main") ||
+              document.getElementById("catalogo");
+            if (catalogoEl) {
+              const headerOffset = 80;
+              const targetY =
+                window.pageYOffset +
+                catalogoEl.getBoundingClientRect().top -
+                headerOffset;
+              window.scrollTo({
+                top: Math.max(0, targetY),
+                behavior: "smooth",
+              });
+            }
+          }
         }
 
         toggle.addEventListener("click", function () {
-          if (panel.classList.contains("is-open")) cerrar();
+          if (panel.classList.contains("is-open")) cerrar(false);
           else abrir();
         });
 
-        cerrarHits.forEach((el) => el.addEventListener("click", cerrar));
-        if (doneBtn) doneBtn.addEventListener("click", cerrar);
+        cerrarHits.forEach((el) => el.addEventListener("click", () => cerrar(true)));
+        if (doneBtn) doneBtn.addEventListener("click", () => cerrar(true));
 
         document.addEventListener("keydown", function (e) {
-          if (e.key === "Escape") cerrar();
+          if (e.key === "Escape") cerrar(false);
         });
       });
     </script>

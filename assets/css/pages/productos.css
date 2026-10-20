@@ -342,10 +342,14 @@ main {
 
 /* ---------- Grilla de productos: 4 columnas x 2 filas = 8 por
    página (1, 2, 3, 4 de izquierda a derecha y 2 de arriba a abajo). ---------- */
+.catalog-main {
+  min-height: 65vh;
+}
+
 .catalog-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  gap: 28px 22px;
   scroll-margin-top: 140px;
 }
 
@@ -856,32 +860,34 @@ main {
   transform: rotate(90deg) scale(1.08);
 }
 
-/* Galería de imágenes: transparente, foto principal grande arriba + 4 fotos abajo sin recuadros ni contornos */
+/* Galería de imágenes: transparente, foto principal grande arriba + miniaturas abajo con buen aire */
 .prod-modal__media {
   background: transparent;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 36px 24px 28px;
+  justify-content: flex-start;
+  padding: 32px 28px 24px;
   border-right: 1px solid var(--gray-200);
 }
 
 .prod-modal__gallery-main {
   width: 100%;
-  aspect-ratio: 1 / 1;
-  max-height: 350px;
-  display: grid;
-  place-items: center;
+  height: 290px;
+  max-height: 310px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: transparent;
   border: none;
   box-shadow: none;
-  padding: 0;
+  padding: 12px;
+  margin-bottom: 8px;
 }
 
 .prod-modal__img-featured {
   max-width: 100%;
-  max-height: 350px;
+  max-height: 270px;
   object-fit: contain;
   transition:
     opacity 0.28s cubic-bezier(0.2, 0.8, 0.2, 1),
@@ -901,26 +907,30 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 16px;
+  gap: 14px;
   width: 100%;
-  margin-top: 18px;
+  margin-top: 14px;
+  padding-top: 16px;
+  border-top: 1px solid #f0f2f5;
 }
 
 .prod-modal__thumb {
-  width: 60px;
-  height: 60px;
-  background: transparent;
-  border: none !important;
+  width: 58px;
+  height: 58px;
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0 !important;
+  border-radius: 12px;
   outline: none !important;
   box-shadow: none !important;
-  padding: 0;
+  padding: 6px;
   display: grid;
   place-items: center;
   cursor: pointer;
-  opacity: 0.42;
-  transform: scale(0.92);
+  opacity: 0.55;
+  transform: scale(0.95);
   transition:
     opacity 0.24s ease,
+    border-color 0.2s ease,
     transform 0.24s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
@@ -933,16 +943,17 @@ main {
 }
 
 .prod-modal__thumb:hover {
-  opacity: 0.85;
+  opacity: 0.9;
+  border-color: #cbd5e1 !important;
   transform: scale(1.02);
 }
 
 .prod-modal__thumb.is-selected {
   opacity: 1;
-  transform: scale(1.1);
-  border: none !important;
-  outline: none !important;
-  box-shadow: none !important;
+  background: #ffffff;
+  border-color: var(--color-accent) !important;
+  transform: scale(1.06);
+  box-shadow: 0 4px 12px rgba(250, 2, 2, 0.16) !important;
 }
 
 /* Info */
@@ -1175,20 +1186,34 @@ main {
   }
 
   .prod-modal__media {
-    padding: 20px 16px;
+    padding: 24px 16px 20px;
     border-right: none;
     border-bottom: 1px solid var(--gray-200);
     min-height: 0;
   }
 
   .prod-modal__gallery-main {
-    max-height: 220px;
-    padding: 12px;
+    height: 200px;
+    max-height: 200px;
+    padding: 10px;
+    margin-bottom: 6px;
+  }
+
+  .prod-modal__img-featured {
+    max-height: 180px;
   }
 
   .prod-modal__thumbs {
-    gap: 8px;
-    margin-top: 10px;
+    gap: 12px;
+    margin-top: 12px;
+    padding-top: 14px;
+  }
+
+  .prod-modal__thumb {
+    width: 50px;
+    height: 50px;
+    padding: 5px;
+    border-radius: 10px;
   }
 
   .prod-modal__info {
@@ -1218,11 +1243,11 @@ main {
 /* Catálogo: padding y toolbar en pantallas pequeñas */
 @media (max-width: 600px) {
   .catalog {
-    padding: 28px 0 56px;
+    padding: 24px 16px 56px;
   }
 
   .catalog-grid {
-    gap: 12px;
+    gap: 20px 14px;
   }
 }
 
@@ -1283,18 +1308,18 @@ main {
   justify-content: center;
   position: fixed;
   left: 0;
-  top: 50%;
+  top: 58%;
   transform: translateY(-50%);
   z-index: 95;
-  width: 48px;
-  height: 92px;
+  width: 42px;
+  height: 64px;
   padding: 0;
   border: none;
-  border-radius: 0 999px 999px 0;
+  border-radius: 0 16px 16px 0;
   background: var(--color-accent);
   color: var(--color-white);
   cursor: pointer;
-  box-shadow: 4px 4px 14px rgba(0, 0, 0, 0.28);
+  box-shadow: 2px 4px 14px rgba(0, 0, 0, 0.22);
   transition:
     background 0.2s ease,
     width 0.2s ease;
@@ -1515,18 +1540,18 @@ main {
     filter: brightness(1.06);
   }
 
-  /* Dos productos por fila en el celular */
+  /* Dos productos por fila en el celular con mejor separación */
   .catalog-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    gap: 22px 14px;
   }
 
   /* En el celular se ven 4 productos de una vez (2 filas x 2 columnas)
      con tarjetas cómodas: imagen clara y textos legibles. */
   .catalog-grid .product-card__media {
     aspect-ratio: auto;
-    height: 150px;
-    padding: 10px;
+    height: 156px;
+    padding: 12px;
   }
 
   .catalog-grid .product-card__brand {
@@ -1537,8 +1562,8 @@ main {
   }
 
   .catalog-grid .product-card__body {
-    padding: 10px 12px 12px;
-    gap: 4px;
+    padding: 10px 8px 12px;
+    gap: 5px;
   }
 
   .catalog-grid .product-card__category {

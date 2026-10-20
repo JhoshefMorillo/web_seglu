@@ -138,6 +138,7 @@
 }
 
 /* Logo siempre con sus colores corporativos oficiales (rojo y azul) en todo momento */
+.site-header__logo > path:first-of-type,
 .site-header__logo .logo-s,
 .site-header__logo path.logo-s,
 .site-header .site-header__logo .logo-s {
@@ -149,7 +150,7 @@
 .site-header__logo .logo-text,
 .site-header__logo .logo-text path,
 .site-header .site-header__logo .logo-text,
-.site-header .site-header__logo path:not(.logo-s) {
+.site-header .site-header__logo path:not(.logo-s):not(:first-of-type) {
   fill: #0343B0 !important;
 }
 
