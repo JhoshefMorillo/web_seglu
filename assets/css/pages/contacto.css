@@ -288,11 +288,11 @@
   display: none;
 }
 
-/* Marco completo del mapa */
+/* Marco completo del mapa: en PC es grande y del mismo ancho que el buscador */
 .contact-map__frame {
   position: relative;
   width: 100%;
-  max-width: 720px;
+  max-width: 100%;
   margin: 0 auto;
   height: 480px;
   border-radius: 20px;
@@ -529,8 +529,17 @@
     padding-left: 60px;
   }
 
+  .contact-route {
+    max-width: 360px;
+    margin-inline: auto;
+  }
+
   .contact-map__frame {
+    width: 100%;
+    max-width: 360px;
     height: 360px;
+    aspect-ratio: 1 / 1;
+    margin: 0 auto;
     border-radius: 16px;
   }
 }
