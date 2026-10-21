@@ -1207,7 +1207,7 @@ function initCookieConsent() {
       banner.classList.remove("is-visible");
       setTimeout(() => {
         if (banner.parentNode) banner.parentNode.removeChild(banner);
-      }, 400);
+      }, 450);
     };
 
     const btnAccept = banner.querySelector("#btnAcceptCookies");
