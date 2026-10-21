@@ -782,8 +782,14 @@
     transition: color 0.2s ease, transform 0.15s ease;
   }
 
-  .mobile-drawer__link:hover {
+  .mobile-drawer__link:hover,
+  .mobile-drawer__link:active,
+  .mobile-drawer__link.is-active,
+  .mobile-drawer__link[aria-current="page"] {
     color: var(--brand-red, #fa0202);
+  }
+
+  .mobile-drawer__link:hover {
     transform: translateX(4px);
   }
 

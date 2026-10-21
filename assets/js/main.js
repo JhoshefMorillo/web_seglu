@@ -74,6 +74,20 @@ function initMobileNav() {
     document.body.appendChild(drawer);
   }
 
+  // Marcar enlace activo según la página en la que se encuentra el usuario
+  const currentFile = window.location.pathname.split("/").pop().toLowerCase() || "index.html";
+  drawer.querySelectorAll(".mobile-drawer__link").forEach((link) => {
+    const href = (link.getAttribute("href") || "").split("/").pop().toLowerCase();
+    const isHome = (currentFile === "" || currentFile === "index.html" || currentFile === "/") && (href === "index.html" || href === "");
+    if (href === currentFile || isHome) {
+      link.classList.add("is-active");
+      link.setAttribute("aria-current", "page");
+    } else {
+      link.classList.remove("is-active");
+      link.removeAttribute("aria-current");
+    }
+  });
+
   const openNav = () => {
     drawer.setAttribute("data-open", "true");
     drawer.setAttribute("aria-hidden", "false");

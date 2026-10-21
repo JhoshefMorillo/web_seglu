@@ -481,6 +481,30 @@ if (!document.getElementById("confirm-modal-css")) {
       background: #ff0000; color: #fff;
     }
     .confirm-modal__btn--confirm:hover { background: #d40000; }
+    @media (max-width: 600px) {
+      .confirm-modal__box {
+        padding: 24px 18px 20px;
+        width: 92%;
+        max-width: 360px;
+        border-radius: 16px;
+      }
+      .confirm-modal__text {
+        font-size: 0.92rem;
+        margin-bottom: 18px;
+      }
+      .confirm-modal__actions {
+        gap: 8px;
+      }
+      .confirm-modal__btn {
+        padding: 11px 8px;
+        font-size: 0.82rem;
+        white-space: nowrap;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+    }
     @keyframes cmodal-in {
       from { opacity: 0; }
       to   { opacity: 1; }
