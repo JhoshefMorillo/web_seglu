@@ -577,16 +577,21 @@ function initCatalogPage() {
       return;
     }
     const p = modalProducto;
+    const tallaTxt =
+      modalProducto.tallas && modalProducto.tallas.length > 0
+        ? modalTalla || modalProducto.tallas[0]
+        : "Estándar";
+
     const lineas = [
       "Hola SEGLU, me interesa cotizar el siguiente producto:",
       "",
-      `• Producto: ${p.name}`,
-      `• Marca: ${p.marca}`,
+      `• *Producto:* ${p.name}`,
+      `• *Marca:* ${p.marca}`,
+      `• *Talla / Presentación:* ${tallaTxt}`,
+      `• *Cantidad:* ${modalQty}`,
+      "",
+      "Quedo atento a su respuesta. ¡Gracias!",
     ];
-    if (modalProducto.tallas && modalProducto.tallas.length > 0) {
-      lineas.push(`• Talla / Presentación: ${modalTalla || "-"}`);
-    }
-    lineas.push(`• Cantidad: ${modalQty}`, "", "Quedo atento a su respuesta. ¡Gracias!");
     const url = `https://wa.me/${WA}?text=${encodeURIComponent(lineas.join("\n"))}`;
     window.open(url, "_blank", "noopener");
   };
@@ -684,6 +689,14 @@ function initCatalogPage() {
       const card = btnAdd.closest(".product-card");
       btnAdd.disabled = true;
 
+      // Estado 1: Spinner de carga mientras dura el vuelo al carrito
+      const originalHtml = btnAdd.innerHTML;
+      btnAdd.classList.add("is-loading");
+      btnAdd.innerHTML = `
+        <span class="btn-spinner" aria-hidden="true"></span>
+        <strong>AGREGANDO...</strong>
+      `;
+
       animarVueloAlCarrito(card, p, () => {
         // Guardar producto en el carrito con su talla/presentación base si tuviera
         const defaultTalla =
@@ -711,8 +724,8 @@ function initCatalogPage() {
           setTimeout(() => cartBtn.classList.remove("cart-bump"), 700);
         }
 
-        // Feedback interactivo en el botón de la tarjeta
-        const originalHtml = btnAdd.innerHTML;
+        // Estado 2: ¡AGREGADO! en verde
+        btnAdd.classList.remove("is-loading");
         btnAdd.classList.add("is-added");
         btnAdd.innerHTML = `
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -721,6 +734,7 @@ function initCatalogPage() {
           <strong>¡AGREGADO!</strong>
         `;
 
+        // Estado 3: Retorno al estado original
         setTimeout(() => {
           btnAdd.classList.remove("is-added");
           btnAdd.innerHTML = originalHtml;
@@ -789,13 +803,12 @@ function initCatalogPage() {
       image: modalProducto.image || "",
     };
 
+    // Estado 1: Spinner de carga mientras dura el vuelo al carrito en el modal
     const originalAddHtml = modalAdd.innerHTML;
-    modalAdd.classList.add("is-added");
+    modalAdd.classList.add("is-loading");
     modalAdd.innerHTML = `
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <polyline points="20 6 9 17 4 12"></polyline>
-      </svg>
-      <strong>¡AGREGADO!</strong>
+      <span class="btn-spinner" aria-hidden="true"></span>
+      <strong>AGREGANDO...</strong>
     `;
 
     animarVueloAlCarrito(modalImg, modalProducto, () => {
@@ -812,6 +825,17 @@ function initCatalogPage() {
         setTimeout(() => cartBtn.classList.remove("cart-bump"), 700);
       }
 
+      // Estado 2: ¡AGREGADO! en verde
+      modalAdd.classList.remove("is-loading");
+      modalAdd.classList.add("is-added");
+      modalAdd.innerHTML = `
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <strong>¡AGREGADO!</strong>
+      `;
+
+      // Estado 3: Retorno al estado original
       setTimeout(() => {
         modalAdd.classList.remove("is-added");
         modalAdd.innerHTML = originalAddHtml;

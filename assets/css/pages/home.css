@@ -27,14 +27,17 @@ html {
 .hero {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 9;     /* Siempre 16:9, igual que las imágenes → sin rayas */
-  max-height: 100vh;         /* No pasa de la pantalla */
+  aspect-ratio: 16 / 9;
+  /* Siempre 16:9, igual que las imágenes → sin rayas */
+  max-height: 100vh;
+  /* No pasa de la pantalla */
   min-height: 400px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background-color: #f3f3f3; /* Coincide con el fondo de las imágenes sin fondo */
+  background-color: #f3f3f3;
+  /* Coincide con el fondo de las imágenes sin fondo */
   margin-bottom: var(--section-padding);
   cursor: grab;
 }
@@ -59,7 +62,8 @@ html {
 }
 
 .hero.is-dragging .hero__track {
-  transition: none; /* Arrastre en tiempo real 1:1 */
+  transition: none;
+  /* Arrastre en tiempo real 1:1 */
 }
 
 .hero__slide {
@@ -78,7 +82,8 @@ html {
   z-index: 0;
   width: 100%;
   height: 100%;
-  object-fit: contain;   /* Imagen entera, sin recortes */
+  object-fit: contain;
+  /* Imagen entera, sin recortes */
   object-position: center center;
   -webkit-user-drag: none;
   user-select: none;
@@ -89,9 +94,11 @@ html {
 .hero__overlay {
   position: absolute;
   inset: 0;
-  background: rgba(13, 13, 13, 0.4); /* Exactamente 40% de opacidad */
+  background: rgba(13, 13, 13, 0.4);
+  /* Exactamente 40% de opacidad */
   z-index: 1;
-  pointer-events: none; /* Permite arrastrar el hero libremente */
+  pointer-events: none;
+  /* Permite arrastrar el hero libremente */
 }
 
 /* ================================================
@@ -104,7 +111,8 @@ html {
   left: 0;
   right: 0;
   bottom: auto;
-  width: 34%;        /* Más chico para que no tape todo */
+  width: 34%;
+  /* Más chico para que no tape todo */
   height: auto;
   margin-inline: auto;
   object-fit: contain;
@@ -222,7 +230,8 @@ html {
   align-items: center;
   gap: 8px;
   font-family: var(--font-body, "Inter", -apple-system, BlinkMacSystemFont, sans-serif);
-  font-size: 11px; /* Números más chiquitos y elegantes */
+  font-size: 11px;
+  /* Números más chiquitos y elegantes */
   font-weight: 500;
   letter-spacing: 0.08em;
   color: rgba(255, 255, 255, 0.45);
@@ -255,12 +264,13 @@ html {
   transform: scaleX(0);
   transform-origin: left center;
   transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-              opacity 0.25s ease;
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.25s ease;
 }
 
 .hero__page-btn.is-active .hero__page-bar {
-  width: 26px; /* Barra más cortita y estilizada */
+  width: 26px;
+  /* Barra más cortita y estilizada */
   opacity: 1;
   transform: scaleX(1);
 }
@@ -270,10 +280,12 @@ html {
     bottom: 52px;
     gap: 12px;
   }
+
   .hero__page-btn {
     font-size: 10px;
     gap: 6px;
   }
+
   .hero__page-btn.is-active .hero__page-bar {
     width: 20px;
   }
@@ -287,7 +299,8 @@ html {
   padding-block: 0;
   max-width: 100% !important;
   margin-left: 0 !important;
-  padding-left: 60px; /* separación del texto respecto al borde izquierdo */
+  padding-left: 60px;
+  /* separación del texto respecto al borde izquierdo */
 }
 
 .hero__content {
@@ -302,7 +315,8 @@ html {
 .hero__title {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(4.6rem, 8.8vw, 7rem); /* tamaño responsive del título */
+  font-size: clamp(4.6rem, 8.8vw, 7rem);
+  /* tamaño responsive del título */
   line-height: 1.05;
   color: var(--color-white);
   margin-bottom: 0;
@@ -323,6 +337,8 @@ html {
   margin-bottom: 24px;
   max-width: 720px;
 }
+
+
 
 .hero__badge {
   position: absolute;
@@ -526,6 +542,19 @@ html {
     filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.4));
   }
 
+  /* Slides 3, 4 y 5 en móvil: imagen completa sin recortar ningún pedestal ni producto */
+  .hero__slide--pedestals .hero__image,
+  .hero__slide--equip .hero__image,
+  .hero__slide:nth-child(4) .hero__image,
+  .hero__slide:nth-child(5) .hero__image {
+    object-fit: contain !important;
+    object-position: center center !important;
+    width: 100% !important;
+    height: 100% !important;
+    transform: none !important;
+    filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.35));
+  }
+
   /* Overlay sutil para máxima claridad de la imagen */
   .hero__overlay {
     background: rgba(0, 0, 0, 0.18) !important;
@@ -545,6 +574,7 @@ html {
     opacity: 0;
     transform: scale(1.04);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -560,6 +590,7 @@ html {
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .hero__image,
   .hero__overlay {
     animation: none;
@@ -600,21 +631,18 @@ html {
   margin-block: -16px;
   /* Difumina los bordes izq/der para que los logos "aparezcan/desaparezcan"
      suavemente en vez de cortarse de golpe */
-  -webkit-mask-image: linear-gradient(
-    90deg,
-    transparent,
-    #000 10%,
-    #000 90%,
-    transparent
-  );
-  mask-image: linear-gradient(
-    90deg,
-    transparent,
-    #000 10%,
-    #000 90%,
-    transparent
-  );
+  -webkit-mask-image: linear-gradient(90deg,
+      transparent,
+      #000 10%,
+      #000 90%,
+      transparent);
+  mask-image: linear-gradient(90deg,
+      transparent,
+      #000 10%,
+      #000 90%,
+      transparent);
 }
+
 .brands__track {
   display: flex;
   width: max-content;
@@ -643,7 +671,8 @@ html {
   flex-shrink: 0;
   width: 180px;
   height: 90px;
-  margin-inline: 32px; /* separación horizontal entre logos */
+  margin-inline: 32px;
+  /* separación horizontal entre logos */
   display: grid;
   place-items: center;
 }
@@ -668,6 +697,7 @@ html {
   from {
     transform: translateX(0);
   }
+
   to {
     transform: translateX(var(--marquee-distance, -50%));
   }
@@ -699,7 +729,8 @@ html {
   display: block;
   width: 96px;
   height: 12px;
-  background: var(--color-accent); /*cambiar color que quiero poner*/
+  background: var(--color-accent);
+  /*cambiar color que quiero poner*/
   border-radius: 0;
   margin-bottom: 16px;
 }
@@ -785,7 +816,8 @@ html {
 
 .cat-showcase__card:hover .cat-showcase__chevron {
   color: var(--color-accent);
-  transform: translateY(4px); /* la flecha "cae" un poco al hover */
+  transform: translateY(4px);
+  /* la flecha "cae" un poco al hover */
 }
 
 /* Responsive: 2 columnas en tablet, recalcula bordes de la cuadrícula */
@@ -793,15 +825,19 @@ html {
   .cat-showcase__grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
   .cat-showcase__card:nth-child(4n + 1) {
     border-left: 1px solid var(--gray-100);
   }
+
   .cat-showcase__card:nth-child(odd) {
     border-left: none;
   }
+
   .cat-showcase__card:nth-child(-n + 4) {
     border-top: 1px solid var(--gray-100);
   }
+
   .cat-showcase__card:nth-child(-n + 2) {
     border-top: none;
   }
@@ -812,10 +848,12 @@ html {
   .cat-showcase__grid {
     grid-template-columns: 1fr;
   }
+
   .cat-showcase__card {
     border-left: none;
     border-top: 1px solid var(--gray-100);
   }
+
   .cat-showcase__card:first-child {
     border-top: none;
   }
@@ -1226,9 +1264,11 @@ html {
   .cat-showcase__card:nth-child(odd) {
     border-left: none;
   }
+
   .cat-showcase__card:nth-child(even) {
     border-left: 1px solid var(--gray-100);
   }
+
   .cat-showcase__card:nth-child(-n + 2) {
     border-top: none;
   }
@@ -1637,9 +1677,10 @@ html {
    En móvil se mantiene siempre en sus colores oficiales.
    ============================================================ */
 @media (min-width: 961px) {
+
   .site-header:not(.is-scrolled) .site-header__logo .logo-s,
   .site-header:not(.is-scrolled) .site-header__logo path.logo-s,
-  .site-header:not(.is-scrolled) .site-header__logo > path:first-of-type,
+  .site-header:not(.is-scrolled) .site-header__logo>path:first-of-type,
   .site-header:not(.is-scrolled) .site-header__brand svg path.logo-s {
     fill: #ffffff !important;
   }
@@ -1654,7 +1695,7 @@ html {
 
   .site-header.is-scrolled .site-header__logo .logo-s,
   .site-header.is-scrolled .site-header__logo path.logo-s,
-  .site-header.is-scrolled .site-header__logo > path:first-of-type {
+  .site-header.is-scrolled .site-header__logo>path:first-of-type {
     fill: #FF0000 !important;
   }
 
@@ -1665,4 +1706,3 @@ html {
     fill: #0343B0 !important;
   }
 }
-

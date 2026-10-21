@@ -532,6 +532,40 @@ main {
   transform: scale(1.12);
 }
 
+/* Micro-spinner de carga elegante */
+.btn-spinner {
+  width: 15px;
+  height: 15px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  display: inline-block;
+  animation: btn-spin 0.65s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes btn-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Estado de carga previo a ¡AGREGADO! */
+.catalog-grid .product-card__add-btn.is-loading,
+.prod-modal__add.is-loading {
+  background: #c80000 !important;
+  border-color: #c80000 !important;
+  color: #ffffff !important;
+  pointer-events: none;
+  cursor: wait;
+}
+
+.prod-modal__add .btn-spinner {
+  width: 18px;
+  height: 18px;
+  border-width: 2.2px;
+}
+
 /* Estado de éxito temporal tras agregar al carrito */
 .catalog-grid .product-card__add-btn.is-added {
   background: #16a34a !important;
