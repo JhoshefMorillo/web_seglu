@@ -391,7 +391,7 @@ html {
     display: none !important;
   }
 
-  /* Slide 1 en móvil: Textos juntos arriba y debajo la imagen grandecita */
+  /* Slide 1 en móvil: Textos juntos arriba (más abajito) y debajo la imagen grandecita y centrada */
   .hero__slide--intro .hero__slide-caption,
   .hero__slide--intro .hero__slide-caption--left {
     display: flex !important;
@@ -404,7 +404,7 @@ html {
     flex-direction: column !important;
     align-items: center !important;
     text-align: center !important;
-    padding-top: max(13vh, 90px) !important;
+    padding-top: max(18vh, 130px) !important;
     padding-inline: 18px !important;
     pointer-events: none;
     box-sizing: border-box;
@@ -415,7 +415,7 @@ html {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: 3px;
+    gap: 4px;
     margin: 0;
   }
 
@@ -449,20 +449,21 @@ html {
     display: none !important;
   }
 
-  /* Slide 1 en móvil: Imagen debajo del texto, grandecita y visible completa */
+  /* Slide 1 en móvil: Imagen debajo del texto, bien centrada y más grande */
   .hero__slide--intro .hero__image {
+    content: url("../../img/hero/1-mobile.png") !important;
     z-index: 1 !important;
     position: absolute !important;
     top: auto !important;
-    bottom: 56px !important;
+    bottom: 50px !important;
     left: 0 !important;
     right: 0 !important;
     margin-inline: auto !important;
     transform: none !important;
-    width: 88% !important;
-    max-width: 370px !important;
-    height: calc(100% - 220px) !important;
-    max-height: 52vh !important;
+    width: 96% !important;
+    max-width: 420px !important;
+    height: calc(100% - 230px) !important;
+    max-height: 58vh !important;
     object-fit: contain !important;
     object-position: center bottom !important;
     filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.35));
