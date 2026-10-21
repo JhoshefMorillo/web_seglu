@@ -113,6 +113,13 @@ document.addEventListener("DOMContentLoaded", function () {
       const isPdf = file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
 
       if (isPdf) {
+        const safeName = String(file.name || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+
         const pdfCard = document.createElement("div");
         pdfCard.className = "lr-preview-pdf-card";
         pdfCard.innerHTML = `
@@ -124,7 +131,7 @@ document.addEventListener("DOMContentLoaded", function () {
               <line x1="16" y1="17" x2="8" y2="17"></line>
               <polyline points="10 9 9 9 8 9"></polyline>
             </svg>
-            <span class="lr-preview-pdf-name" title="${file.name}">${file.name}</span>
+            <span class="lr-preview-pdf-name" title="${safeName}">${safeName}</span>
           </div>
           <button type="button" class="lr-preview-remove" data-index="${index}" aria-label="Eliminar archivo">×</button>
         `;

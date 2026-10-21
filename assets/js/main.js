@@ -229,10 +229,18 @@ function initSearchBox() {
         p.categoria.toLowerCase().includes(term)
     ).slice(0, 6);
 
+    const escapeHtml = (str) =>
+      String(str || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
     const href = `productos.html?q=${encodeURIComponent(q)}`;
 
     if (items.length === 0) {
-      modalResults.innerHTML = `<p class="mobile-search-empty">No encontramos "<strong>${q}</strong>". Prueba con otra palabra.</p>`;
+      modalResults.innerHTML = `<p class="mobile-search-empty">No encontramos "<strong>${escapeHtml(q)}</strong>". Prueba con otra palabra.</p>`;
       return;
     }
 
@@ -242,15 +250,15 @@ function initSearchBox() {
         .map(
           (p) => `
         <a class="mobile-search-item" href="productos.html?q=${encodeURIComponent(p.name)}">
-          <img src="${p.image || ''}" alt="${p.name}" />
+          <img src="${p.image || ''}" alt="${escapeHtml(p.name)}" />
           <div>
-            <strong>${p.name}</strong>
-            <span>${p.marca || ''} · ${p.categoria}</span>
+            <strong>${escapeHtml(p.name)}</strong>
+            <span>${escapeHtml(p.marca || '')} · ${escapeHtml(p.categoria)}</span>
           </div>
         </a>`
         )
         .join("")}
-      <a class="mobile-search-all" href="${href}">Ver todos los resultados para "${q}" →</a>
+      <a class="mobile-search-all" href="${href}">Ver todos los resultados para "${escapeHtml(q)}" →</a>
     `;
   };
 

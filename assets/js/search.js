@@ -46,22 +46,30 @@ function initHeaderSearch() {
 
     const href = `productos.html?q=${encodeURIComponent(q)}`;
 
+    const escapeHtml = (str) =>
+      String(str || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
     const itemsHtml = items.length
       ? items
           .map(
             (p) => `
         <a class="search-drop__item" href="${href}">
-          <img src="${p.image || ICONO_POR_SLUG[p.categoria] || ""}" alt="${p.name}" />
+          <img src="${p.image || ICONO_POR_SLUG[p.categoria] || ""}" alt="${escapeHtml(p.name)}" />
           <span class="search-drop__info">
-            <span class="search-drop__name">${p.name}</span>
-            <span class="search-drop__meta">${nombreMarca(p)} · ${nombreCategoria(
+            <span class="search-drop__name">${escapeHtml(p.name)}</span>
+            <span class="search-drop__meta">${escapeHtml(nombreMarca(p))} · ${escapeHtml(nombreCategoria(
               p.categoria,
-            )}</span>
+            ))}</span>
           </span>
         </a>`,
           )
           .join("")
-      : `<p class="search-drop__empty">No encontramos "<strong>${q}</strong>".<br />Prueba con otra palabra.</p>`;
+      : `<p class="search-drop__empty">No encontramos "<strong>${escapeHtml(q)}</strong>".<br />Prueba con otra palabra.</p>`;
 
     drop.innerHTML = `
       <div class="search-drop__head">${

@@ -489,12 +489,11 @@ main {
   transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* "VER PRODUCTOS": rojo solido con letra blanca */
+/* "VER PRODUCTOS": rojo solido con letra blanca (siempre en 1 sola línea) */
 .catalog-grid .product-card__cta {
   border: 1.5px solid var(--color-accent);
   background: var(--color-accent);
-  /* #ffffff y no var(--color-white): ese alias apunta a #f7f8fa (gris),
-     que sobre el rojo se ve sucio. */
+  white-space: nowrap !important;
   color: #ffffff;
 }
 
@@ -623,12 +622,35 @@ main {
 @media (max-width: 860px) {
   .catalog.container {
     grid-template-columns: 1fr;
-    padding-inline: 20px;
+    padding-inline: 16px;
   }
 
   .catalog-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+    gap: 14px;
+  }
+
+  .catalog-grid .product-card__body {
+    padding: 10px 10px 14px;
+  }
+
+  /* Botón "VER PRODUCTOS" estrictamente en una sola línea en celular */
+  .catalog-grid .product-card__cta {
+    white-space: nowrap !important;
+    font-size: clamp(0.72rem, 2.3vw, 0.8rem) !important;
+    padding: 8px 6px !important;
+    min-height: 36px;
+    letter-spacing: 0.02em;
+  }
+
+  /* Botón "AGREGAR AL CARRITO" como estaba antes: texto e icono en dos líneas ordenadas */
+  .catalog-grid .product-card__add-btn {
+    white-space: normal !important;
+    line-height: 1.25;
+    padding: 7px 8px !important;
+    min-height: 38px;
+    font-size: 0.78rem;
+    letter-spacing: 0.02em;
   }
 }
 
@@ -1011,6 +1033,7 @@ main {
   font-size: 0.92rem;
   line-height: 1.6;
   display: -webkit-box;
+  line-clamp: 5;
   -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
   overflow: hidden;
