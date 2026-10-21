@@ -577,35 +577,44 @@
     --header-height: 72px;
   }
 
-  /* Header móvil: fondo blanco nítido, siempre visible y elegante como en Foto 1 */
+  /* Header móvil: transparente al inicio sobre el hero, y se pone fondo blanco al hacer scroll */
   .site-header {
     z-index: 120;
-    background: rgba(255, 255, 255, 0.98) !important;
-    backdrop-filter: blur(14px) !important;
-    -webkit-backdrop-filter: blur(14px) !important;
-    border-bottom: 1px solid var(--border-color) !important;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05) !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border-bottom: 1px solid transparent !important;
+    box-shadow: none !important;
+    transition:
+      background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+      backdrop-filter 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+
+  /* Al hacer scroll (o en páginas secundarias sin hero): fondo blanco glassmorphism */
+  .site-header.is-scrolled {
+    background: rgba(255, 255, 255, 0.96) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border-bottom: 1px solid var(--border-color, rgba(0, 0, 0, 0.08)) !important;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06) !important;
   }
 
   .site-header::before {
     display: none !important;
   }
 
-  /* Logo siempre en sus colores oficiales de marca sobre fondo blanco */
-  .site-header__logo .logo-s,
-  .site-header__logo > path:first-of-type,
-  .site-header__logo path.logo-s {
-    fill: #FF0000 !important;
-  }
-  .site-header__logo .logo-text,
-  .site-header__logo .logo-text path,
-  .site-header__logo g path,
-  .site-header__logo path:not(.logo-s):not(:first-of-type) {
-    fill: #0343B0 !important;
-  }
+  /* Logo en móvil */
   .site-header__logo {
     height: 44px;
     transform: none;
+    transition: filter 0.3s ease;
+  }
+
+  /* Estado transparente sobre el hero: sombra suave en el logo blanco */
+  .site-header:not(.is-scrolled) .site-header__logo {
+    filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.45));
   }
 
   /* Estructura: Logo a la izquierda, acciones a la derecha */
@@ -634,13 +643,36 @@
     gap: 8px !important;
   }
 
+  .cart-btn,
+  .search-toggle,
+  .hamburger {
+    transition: color 0.3s ease, filter 0.3s ease;
+  }
+
+  /* Estado transparente sobre el hero: carrito, buscador y hamburguesa BLANCOS */
+  .site-header:not(.is-scrolled) .cart-btn,
+  .site-header:not(.is-scrolled) .search-toggle,
+  .site-header:not(.is-scrolled) .hamburger,
+  .site-header:not(.is-scrolled) .hamburger__icon {
+    color: #ffffff !important;
+    filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.45));
+  }
+
+  /* Al hacer scroll con fondo blanco: carrito, buscador y hamburguesa NEGRITOS */
+  .site-header.is-scrolled .cart-btn,
+  .site-header.is-scrolled .search-toggle,
+  .site-header.is-scrolled .hamburger,
+  .site-header.is-scrolled .hamburger__icon {
+    color: #1a1a1a !important;
+    filter: none !important;
+  }
+
   .cart-btn {
     order: 1 !important;
     width: 42px !important;
     height: 42px !important;
     display: grid !important;
     place-items: center !important;
-    color: #1a1a1a !important;
   }
 
   .search-box {
@@ -654,7 +686,6 @@
     height: 42px !important;
     display: grid !important;
     place-items: center !important;
-    color: #1a1a1a !important;
   }
 
   .hamburger {
@@ -666,13 +697,11 @@
     height: 42px !important;
     align-items: center !important;
     justify-content: center !important;
-    color: #1a1a1a !important;
   }
 
   .hamburger__icon {
     width: 24px;
     height: 24px;
-    color: #1a1a1a !important;
     stroke: currentColor;
     stroke-width: 2;
   }

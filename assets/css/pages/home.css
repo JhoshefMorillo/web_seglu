@@ -402,8 +402,7 @@ html {
   .hero__content,
   .hero__title,
   .hero__text,
-  .hero__badge,
-  .hero__slide--equip .hero__slide-caption {
+  .hero__badge {
     display: none !important;
   }
 
@@ -542,9 +541,56 @@ html {
     filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.4));
   }
 
-  /* Slides 3, 4 y 5 en móvil: imagen completa sin recortar ningún pedestal ni producto */
-  .hero__slide--pedestals .hero__image,
-  .hero__slide--equip .hero__image,
+  /* Slide 3 en móvil: Solo el texto "EQUIPATE CON LOS MEJORES" arriba */
+  .hero__slide--equip .hero__slide-caption {
+    display: flex !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: auto;
+    z-index: 2;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-top: max(18vh, 130px);
+    padding-inline: 18px;
+    pointer-events: none;
+    box-sizing: border-box;
+  }
+
+  .hero__slide--equip .slide-caption__top {
+    display: block !important;
+    font-family: var(--font-display, "Barlow Condensed", sans-serif);
+    font-weight: 900;
+    font-size: clamp(3rem, 13vw, 4.5rem);
+
+
+    line-height: 1.05;
+    color: #FF0000;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    margin: 0;
+    text-align: center;
+    text-shadow: 0 2px 10px rgba(255, 0, 0, 0.15);
+  }
+
+  /* Subtítulo oculto en móvil (solo se muestra el título superior) */
+  .hero__slide--equip .slide-caption__sub {
+    display: none !important;
+  }
+
+  /* Slide 3 en móvil: imagen entera con los 5 pedestales ubicada debajo del texto sin recortes */
+  .hero__slide--equip .hero__image {
+    object-fit: contain !important;
+    object-position: center 60% !important;
+    width: 100% !important;
+    height: 100% !important;
+    transform: none !important;
+    filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.35));
+  }
+
+  /* Slides 4 y 5 en móvil: imagen completa centrada sin recortes */
   .hero__slide:nth-child(4) .hero__image,
   .hero__slide:nth-child(5) .hero__image {
     object-fit: contain !important;
@@ -1671,38 +1717,34 @@ html {
 }
 
 /* ============================================================
-   LOGO EN INICIO (SOLO EN PC)
+   LOGO EN INICIO (PC Y MÓVIL)
    Blanco sobre el hero al inicio, y al bajar (scroll)
    regresa a sus colores corporativos oficiales (rojo y azul).
-   En móvil se mantiene siempre en sus colores oficiales.
    ============================================================ */
-@media (min-width: 961px) {
+.site-header:not(.is-scrolled) .site-header__logo .logo-s,
+.site-header:not(.is-scrolled) .site-header__logo path.logo-s,
+.site-header:not(.is-scrolled) .site-header__logo>path:first-of-type,
+.site-header:not(.is-scrolled) .site-header__brand svg path.logo-s {
+  fill: #ffffff !important;
+}
 
-  .site-header:not(.is-scrolled) .site-header__logo .logo-s,
-  .site-header:not(.is-scrolled) .site-header__logo path.logo-s,
-  .site-header:not(.is-scrolled) .site-header__logo>path:first-of-type,
-  .site-header:not(.is-scrolled) .site-header__brand svg path.logo-s {
-    fill: #ffffff !important;
-  }
+.site-header:not(.is-scrolled) .site-header__logo .logo-text,
+.site-header:not(.is-scrolled) .site-header__logo .logo-text path,
+.site-header:not(.is-scrolled) .site-header__logo g,
+.site-header:not(.is-scrolled) .site-header__logo g path,
+.site-header:not(.is-scrolled) .site-header__brand svg .logo-text path {
+  fill: #ffffff !important;
+}
 
-  .site-header:not(.is-scrolled) .site-header__logo .logo-text,
-  .site-header:not(.is-scrolled) .site-header__logo .logo-text path,
-  .site-header:not(.is-scrolled) .site-header__logo g,
-  .site-header:not(.is-scrolled) .site-header__logo g path,
-  .site-header:not(.is-scrolled) .site-header__brand svg .logo-text path {
-    fill: #ffffff !important;
-  }
+.site-header.is-scrolled .site-header__logo .logo-s,
+.site-header.is-scrolled .site-header__logo path.logo-s,
+.site-header.is-scrolled .site-header__logo>path:first-of-type {
+  fill: #FF0000 !important;
+}
 
-  .site-header.is-scrolled .site-header__logo .logo-s,
-  .site-header.is-scrolled .site-header__logo path.logo-s,
-  .site-header.is-scrolled .site-header__logo>path:first-of-type {
-    fill: #FF0000 !important;
-  }
-
-  .site-header.is-scrolled .site-header__logo .logo-text,
-  .site-header.is-scrolled .site-header__logo .logo-text path,
-  .site-header.is-scrolled .site-header__logo g,
-  .site-header.is-scrolled .site-header__logo g path {
-    fill: #0343B0 !important;
-  }
+.site-header.is-scrolled .site-header__logo .logo-text,
+.site-header.is-scrolled .site-header__logo .logo-text path,
+.site-header.is-scrolled .site-header__logo g,
+.site-header.is-scrolled .site-header__logo g path {
+  fill: #0343B0 !important;
 }
