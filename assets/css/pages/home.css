@@ -91,6 +91,11 @@ html {
   transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* Sombra sutil en PC para dar profundidad tridimensional a los pedestales y productos */
+.hero__slide--pedestals .hero__image {
+  filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.35));
+}
+
 .hero__overlay {
   position: absolute;
   inset: 0;
@@ -590,15 +595,16 @@ html {
     filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.35));
   }
 
-  /* Slides 4 y 5 en móvil: imagen completa centrada sin recortes */
-  .hero__slide:nth-child(4) .hero__image,
-  .hero__slide:nth-child(5) .hero__image {
+  /* Slides 4 y 5 en móvil: imagen completa centrada sin recortes, exactamente igual que la foto 4 */
+  .hero__slide--pedestals:not(.hero__slide--equip) .hero__image,
+  .hero__slide--pedestals-2 .hero__image,
+  .hero__slide--pedestals-3 .hero__image {
     object-fit: contain !important;
     object-position: center center !important;
     width: 100% !important;
     height: 100% !important;
     transform: none !important;
-    filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.35));
+    filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.35)) !important;
   }
 
   /* Overlay sutil para máxima claridad de la imagen */
