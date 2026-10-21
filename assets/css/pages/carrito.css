@@ -32,6 +32,11 @@
   justify-content: center;
   gap: 8px;
 }
+.cart-empty-page[hidden],
+.cart-table[hidden],
+.cart-sidebar[hidden] {
+  display: none !important;
+}
 .cart-empty-page__title {
   font-family: var(--font-body, "Inter", sans-serif);
   font-size: 1.15rem;

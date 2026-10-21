@@ -239,3 +239,9 @@ html {
 .custom-scrollbar__thumb.is-dragging {
   background: #9ca3af;
 }
+
+/* Respeto estricto del atributo hidden de HTML frente a selectores con display:flex o display:grid */
+[hidden] {
+  display: none !important;
+}
+

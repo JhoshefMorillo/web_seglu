@@ -71,8 +71,13 @@
     const items=SEGLU_CART.items;
     if(!items.length){
       fullEl.hidden=true;
+      fullEl.style.display="none";
       emptyEl.hidden=false;
-      if(sidebarEl) sidebarEl.hidden = true;
+      emptyEl.style.display="";
+      if(sidebarEl) {
+        sidebarEl.hidden = true;
+        sidebarEl.style.display = "none";
+      }
       if(layoutEl) layoutEl.classList.add("is-empty");
       waEl.classList.add("is-disabled");
       if(siItems)siItems.textContent="0";
@@ -80,8 +85,13 @@
       return;
     }
     fullEl.hidden=false;
+    fullEl.style.display="";
     emptyEl.hidden=true;
-    if(sidebarEl) sidebarEl.hidden = false;
+    emptyEl.style.display="none";
+    if(sidebarEl) {
+      sidebarEl.hidden = false;
+      sidebarEl.style.display = "";
+    }
     if(layoutEl) layoutEl.classList.remove("is-empty");
     const pages=Math.ceil(items.length/PER_PAGE);
     page=Math.min(page,pages);
@@ -121,4 +131,9 @@
     window.renderCarrito=function(lista){if(typeof _orig==="function")_orig(lista);render();};
     render();
   });
+
+  // Ejecución directa si el script corre cuando el DOM ya se parseó
+  if (document.readyState === "complete" || document.readyState === "interactive") {
+    render();
+  }
 })();
